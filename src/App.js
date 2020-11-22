@@ -5,6 +5,7 @@ import SearchView from "./components/SearchView";
 
 function App() {
   const [topGames, setTopGames] = useState([]);
+  // const [topGamesID, setTopGamesId] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchedGames, setSearchedGames] = useState([]);
   const [gameImage, setGameImage] = useState([]);
@@ -20,10 +21,9 @@ function App() {
     // });
   };
 
-  //Update top game
+  //Update top game with image
   const updateTopGame = () => {
     setTopGames([]);
-    // setGameImage([...gameImage, [] ]);
     axios
       .get("https://api.twitch.tv/helix/games/top", {
         headers: {
@@ -33,34 +33,42 @@ function App() {
       })
       .then((response) => {
         const result = response.data;
-        console.log(result.data.length);
         for (let i = 0; i < result.data.length; i++) {
           setTopGames((prevState) => [...prevState, result.data[i].name]);
         }
       });
-  };
 
-  //Update image
-  const updateTopGameImage = () => {
-    // console.log(this.state.topGames);
-    // for (let i = 0; i < 20; i++) {
-    //   axios
-    //     .get(
-    //       `https://api.twitch.tv/helix/search/categories?query=${this.state.topGames[i]}`,
-    //       {
-    //         headers: {
-    //           "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-    //           Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-    //         },
-    //       }
-    //     )
-    //     .then((response) => {
-    //       const result = response.data;
-    //       this.setState({
-    //         gameImage: [...this.state.gameImage, result.data[0].box_art_url],
-    //       });
-    //     });
-    // }
+    //image code
+    async function waitImage() {
+      console.log("topGames name");
+      console.log(topGames);
+      setGameImage([]);
+      for (let i = 0; i < topGames.length; i++) {
+        await axios
+          .get(
+            `https://api.twitch.tv/helix/search/categories?query=` +
+              topGames[i],
+            {
+              headers: {
+                "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
+                Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
+              },
+            }
+          )
+          .then((response) => {
+            const result = response.data;
+            console.log("result " + i);
+            console.log(result);
+            let stringName = findString(
+              result.data,
+              topGames[i],
+              result.data.length
+            );
+            setGameImage((prevState) => [...prevState, stringName.box_art_url]);
+          });
+      }
+    }
+    waitImage();
   };
 
   //search for games matching input
@@ -90,11 +98,16 @@ function App() {
     setSearchInput(e.target.value);
   };
 
+  const findString = (array, target, length) => {
+    for (let i = 0; i < length; i++) {
+      if (array[i].name === target) return array[i];
+    }
+  };
+
   useEffect(() => {
     updateTopGame();
   }, []);
 
-  // console.log(this.state.gameImage);
   return (
     <div>
       <SearchView
