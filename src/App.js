@@ -5,24 +5,24 @@ import SearchView from "./components/SearchView";
 
 function App() {
   const [topGames, setTopGames] = useState([]);
-  // const [topGamesID, setTopGamesId] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchedGames, setSearchedGames] = useState([]);
   const [gameImage, setGameImage] = useState([]);
-  const [oAuth, setoAut] = useState("");
+  const [oAuth, setAuth] = useState("");
 
   //Get new OAuthenitcation key
   const getOAuth = () => {
-    // axios.get("oAuth").then((response) => {
-    //   const data = response.data;
-    //   // this.setState({ oAuth: data });
-    //   console.log(data);
-    //   console.log("oAuth : " + this.oAuth);
-    // });
+    axios.get("oAuth").then((response) => {
+      const data = response.data;
+      setAuth(data);
+      console.log(data);
+      console.log("oAuth : " + this.oAuth);
+    });
   };
 
   //Update top game with image
   const updateTopGame = () => {
+    console.log("updateToPGame called");
     setTopGames([]);
     axios
       .get("https://api.twitch.tv/helix/games/top", {
@@ -37,38 +37,40 @@ function App() {
           setTopGames((prevState) => [...prevState, result.data[i].name]);
         }
       });
+    getImage();
+  };
 
-    //image code
-    async function waitImage() {
-      console.log("topGames name");
-      console.log(topGames);
-      setGameImage([]);
-      for (let i = 0; i < topGames.length; i++) {
-        await axios
-          .get(
-            `https://api.twitch.tv/helix/search/categories?query=` +
-              topGames[i],
-            {
-              headers: {
-                "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-                Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-              },
-            }
-          )
-          .then((response) => {
-            const result = response.data;
-            console.log("result " + i);
-            console.log(result);
-            let stringName = findString(
-              result.data,
-              topGames[i],
-              result.data.length
-            );
-            setGameImage((prevState) => [...prevState, stringName.box_art_url]);
-          });
-      }
+  //retrieves image
+  const getImage = async () => {
+    console.log("getImage called");
+    console.log(topGames);
+    setGameImage([]);
+    for (let i = 0; i < topGames.length; i++) {
+      await axios
+        .get(
+          `https://api.twitch.tv/helix/search/categories?query=` + topGames[i],
+          {
+            headers: {
+              "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
+              Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
+            },
+          }
+        )
+        .then((response) => {
+          const result = response.data;
+          console.log("result " + i);
+          console.log(result);
+          let stringName = findString(
+            result.data,
+            topGames[i],
+            result.data.length
+          );
+          setGameImage((prevState) => [...prevState, stringName.box_art_url]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    waitImage();
   };
 
   //search for games matching input
