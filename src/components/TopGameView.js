@@ -1,24 +1,18 @@
 import React, { useState } from "react";
 
-function TopGameView({
-  gameImage,
-  topGames,
-  getOAuth,
-  updateTopGame,
-  updateTopGameImage,
-}) {
+function TopGameView({ topGames, getOAuth, updateTopGame }) {
   return (
     <div>
       <h1>Top Viewed Categories</h1>
-      {topGames.map((name, i) => (
+      {topGames.map((element, i) => (
         <ol key={i}>
           {" "}
           <img
-            src={gameImage[i]}
+            src={element.picUrl}
             alt={"pic"}
             style={{ height: "100px" }}
           />{" "}
-          {i + 1} {name}{" "}
+          {i + 1} {element.gameName}{" "}
         </ol>
       ))}
       <button onClick={getOAuth}> Get new OAuth</button>

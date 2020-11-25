@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TopGameView from "./components/TopGameView";
-import SearchView from "./components/SearchView";
+import Search from "./components/Search";
+import Nav from "./components/Nav";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  const [topGames, setTopGames] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchedGames, setSearchedGames] = useState([]);
-  const [gameImage, setGameImage] = useState([]);
+  const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
   const [oAuth, setAuth] = useState("");
 
   //Get new OAuthenitcation key
@@ -20,10 +19,10 @@ function App() {
     });
   };
 
-  //Update top game with image
+  //Update top game names
   const updateTopGame = () => {
-    console.log("updateToPGame called");
-    setTopGames([]);
+    console.log(" *****************  updateTopGame called ******************");
+    getImage();
     axios
       .get("https://api.twitch.tv/helix/games/top", {
         headers: {
@@ -34,21 +33,29 @@ function App() {
       .then((response) => {
         const result = response.data;
         for (let i = 0; i < result.data.length; i++) {
-          setTopGames((prevState) => [...prevState, result.data[i].name]);
+          if (i == 0) {
+            setTopGames([{ gameName: result.data[i].name, picUrl: "" }]);
+          } else {
+            setTopGames((prevState) => [
+              ...prevState,
+              { gameName: result.data[i].name, picUrl: "" },
+            ]);
+          }
         }
+        console.log("FINISHED UPDATETOPGAME!!!!!!!!");
       });
-    getImage();
   };
 
   //retrieves image
-  const getImage = async () => {
-    console.log("getImage called");
-    console.log(topGames);
-    setGameImage([]);
+  const getImage = () => {
+    console.log("*****************  getImage called ******************");
+
     for (let i = 0; i < topGames.length; i++) {
-      await axios
+      console.log("looping");
+      axios
         .get(
-          `https://api.twitch.tv/helix/search/categories?query=` + topGames[i],
+          `https://api.twitch.tv/helix/search/categories?query=` +
+            topGames[i].gameName,
           {
             headers: {
               "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
@@ -58,14 +65,17 @@ function App() {
         )
         .then((response) => {
           const result = response.data;
-          console.log("result " + i);
-          console.log(result);
-          let stringName = findString(
+          let arrayElement = findString(
             result.data,
-            topGames[i],
+            topGames[i].gameName,
             result.data.length
           );
-          setGameImage((prevState) => [...prevState, stringName.box_art_url]);
+
+          let index = topGames.findIndex(
+            (x) => x.gameName == topGames[i].gameName
+          );
+          topGames[index].picUrl = arrayElement.box_art_url;
+          setTopGames(topGames);
         })
         .catch((err) => {
           console.log(err);
@@ -73,33 +83,7 @@ function App() {
     }
   };
 
-  //search for games matching input
-  const updateSearch = (e) => {
-    e.preventDefault();
-    setSearchedGames([]);
-    axios
-      .get(
-        "https://api.twitch.tv/helix/search/categories?query=" + searchInput,
-        {
-          headers: {
-            "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-            Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-          },
-        }
-      )
-      .then((response) => {
-        const result = response.data;
-        console.log(result);
-        for (let i = 0; i < result.data.length; i++) {
-          setSearchedGames((prevState) => [...prevState, result.data[i].name]);
-        }
-      });
-  };
-
-  const handleInputChange = (e) => {
-    setSearchInput(e.target.value);
-  };
-
+  //Find matching string and return the array element
   const findString = (array, target, length) => {
     for (let i = 0; i < length; i++) {
       if (array[i].name === target) return array[i];
@@ -110,20 +94,22 @@ function App() {
     updateTopGame();
   }, []);
 
+  const topGamesComponent = () => (
+    <TopGameView
+      topGames={topGames}
+      updateTopGame={updateTopGame}
+      getOAuth={getOAuth}
+    />
+  );
+
   return (
-    <div>
-      <SearchView
-        searchedGames={searchedGames}
-        updateSearch={updateSearch}
-        handleInputChange={handleInputChange}
-      />
-      <TopGameView
-        topGames={topGames}
-        updateTopGame={updateTopGame}
-        getOAuth={getOAuth}
-        gameImage={gameImage}
-      />
-    </div>
+    <Router>
+      <Nav />
+      <Switch>
+        <Route path="/" exact component={topGamesComponent} />
+        <Route path="/search" component={Search} />
+      </Switch>
+    </Router>
   );
 }
 
