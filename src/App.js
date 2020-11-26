@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
+  const [renderIt, setRender] = useState();
   const [oAuth, setAuth] = useState("");
 
   //Get new OAuthenitcation key
@@ -33,6 +34,7 @@ function App() {
       .then((response) => {
         const result = response.data;
         for (let i = 0; i < result.data.length; i++) {
+          console.log(result);
           if (i == 0) {
             setTopGames([{ gameName: result.data[i].name, picUrl: "" }]);
           } else {

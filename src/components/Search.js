@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../App.css";
+import { Link } from "react-router-dom";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
@@ -47,30 +49,32 @@ function Search() {
     display = (
       <div>
         {display2}
-        {searchedGames.map((name, i) => (
-          <ol key={i}>
-            {" "}
-            {i + 1} {name}
-          </ol>
-        ))}
+        <div className="centerList">
+          {searchedGames.map((name, i) => (
+            <Link>
+              <ol key={i}>
+                {" "}
+                {i + 1 + ")"} {name}
+              </ol>
+            </Link>
+          ))}
+        </div>
       </div>
     );
   } else {
-    display = <p>No results.</p>;
+    display = <p className="centerMiddle">No results.</p>;
   }
 
   return (
     <div>
-      <form className="form">
+      <form className="right">
         <input
           type="text"
           className="input"
           placeholder="Search Games"
           onChange={handleInputChange}
         />
-        <button className="button is-info" onClick={updateSearch}>
-          Search
-        </button>
+        <button onClick={updateSearch}>Search</button>
       </form>
       {display}
     </div>
