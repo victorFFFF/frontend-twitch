@@ -9,7 +9,11 @@ function TopGameView({ topGames, getOAuth, updateTopGame }) {
         {topGames.map((element, i) => (
           <ol key={i}>
             {" "}
-            <img src={element.picUrl} alt={"pic"} style={{ height: "100px" }} />
+            <img
+              src={element.box_art_url}
+              alt={"pic"}
+              style={{ height: "100px" }}
+            />
             <Link to="/s">
               {i + 1 + ")"} {element.gameName}{" "}
             </Link>

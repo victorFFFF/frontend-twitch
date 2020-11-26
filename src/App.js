@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import TopGameView from "./components/TopGameView";
 import Search from "./components/Search";
@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
-  const [renderIt, setRender] = useState();
   const [oAuth, setAuth] = useState("");
+  const stateRef = useRef();
 
   //Get new OAuthenitcation key
   const getOAuth = () => {
@@ -21,10 +21,9 @@ function App() {
   };
 
   //Update top game names
-  const updateTopGame = () => {
-    console.log(" *****************  updateTopGame called ******************");
-    getImage();
-    axios
+  const updateTopGame = async () => {
+    //get game names
+    await axios
       .get("https://api.twitch.tv/helix/games/top", {
         headers: {
           "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
@@ -33,31 +32,15 @@ function App() {
       })
       .then((response) => {
         const result = response.data;
-        for (let i = 0; i < result.data.length; i++) {
-          console.log(result);
-          if (i == 0) {
-            setTopGames([{ gameName: result.data[i].name, picUrl: "" }]);
-          } else {
-            setTopGames((prevState) => [
-              ...prevState,
-              { gameName: result.data[i].name, picUrl: "" },
-            ]);
-          }
-        }
-        console.log("FINISHED UPDATETOPGAME!!!!!!!!");
+        stateRef.current = result;
       });
-  };
 
-  //retrieves image
-  const getImage = () => {
-    console.log("*****************  getImage called ******************");
-
-    for (let i = 0; i < topGames.length; i++) {
-      console.log("looping");
-      axios
+    // Get game pic then put pic and name into array
+    for (let i = 0; i < stateRef.current.data.length; i++) {
+      await axios
         .get(
           `https://api.twitch.tv/helix/search/categories?query=` +
-            topGames[i].gameName,
+            stateRef.current.data[i].name,
           {
             headers: {
               "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
@@ -67,17 +50,29 @@ function App() {
         )
         .then((response) => {
           const result = response.data;
+
           let arrayElement = findString(
             result.data,
-            topGames[i].gameName,
+            stateRef.current.data[i].name,
             result.data.length
           );
 
-          let index = topGames.findIndex(
-            (x) => x.gameName == topGames[i].gameName
-          );
-          topGames[index].picUrl = arrayElement.box_art_url;
-          setTopGames(topGames);
+          if (i == 0) {
+            setTopGames([
+              {
+                gameName: stateRef.current.data[i].name,
+                box_art_url: arrayElement.box_art_url,
+              },
+            ]);
+          } else {
+            setTopGames((prevState) => [
+              ...prevState,
+              {
+                gameName: stateRef.current.data[i].name,
+                box_art_url: arrayElement.box_art_url,
+              },
+            ]);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -85,7 +80,7 @@ function App() {
     }
   };
 
-  //Find matching string and return the array element
+  //Find matching string in array and return the array element
   const findString = (array, target, length) => {
     for (let i = 0; i < length; i++) {
       if (array[i].name === target) return array[i];
@@ -103,7 +98,6 @@ function App() {
       getOAuth={getOAuth}
     />
   );
-
   return (
     <Router>
       <Nav />
