@@ -4,6 +4,8 @@ import TopGameView from "./components/TopGameView";
 import Search from "./components/Search";
 import Nav from "./components/Nav";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SearchGames from "./components/SearchGames";
+import SearchChannels from "./components/SearchChannels";
 
 function App() {
   const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
@@ -15,8 +17,7 @@ function App() {
     axios.get("oAuth").then((response) => {
       const data = response.data;
       setAuth(data);
-      console.log(data);
-      console.log("oAuth : " + this.oAuth);
+      console.log("oAuth : " + oAuth);
     });
   };
 
@@ -101,9 +102,12 @@ function App() {
   return (
     <Router>
       <Nav />
+
       <Switch>
         <Route path="/" exact component={topGamesComponent} />
         <Route path="/search" component={Search} />
+        <Route path="/searchGame" component={SearchGames} />
+        <Route path="/searchChannel" component={SearchChannels} />
       </Switch>
     </Router>
   );

@@ -1,0 +1,52 @@
+.Menu {
+  position: relative;
+  margin: 2em 3em;
+  top: -12px;
+}
+
+.m-item {
+  position: absolute;
+  top: 0;
+
+  width: 5.5em;
+  background-color: rgb(73, 79, 82);
+  /* box-shadow: 1px 2px 2px #301a4b; */
+
+  padding: 0.2em;
+
+  /* border-radius: 1em; */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1em;
+  color: white;
+  cursor: pointer;
+
+  transition: 1s;
+}
+
+.m-item:hover {
+  border: 1px solid black;
+}
+.m-logo {
+  z-index: 1;
+}
+.open-1 {
+  top: 1.8em;
+  background-color: rgb(73, 79, 82);
+  border: 1px solid black;
+}
+.open-2 {
+  top: 3.6em;
+  background-color: rgb(73, 79, 82);
+  border: 1px solid black;
+}
+
+.open-1:hover {
+  border: 1px solid white;
+}
+.open-2:hover {
+  border: 1px solid white;
+}

@@ -14,7 +14,7 @@ function TopGameView({ topGames, getOAuth, updateTopGame }) {
               alt={"pic"}
               style={{ height: "100px" }}
             />
-            <Link to="/s">
+            <Link to="/a">
               {i + 1 + ")"} {element.gameName}{" "}
             </Link>
           </ol>
