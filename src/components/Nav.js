@@ -4,14 +4,13 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Button from "react-bootstrap/Button";
 import MenuSearch from "./MenuSearch";
+import MenuPopular from "./MenuPopular";
 
 function Nav() {
   const navStyle = {
     color: "White",
     textDecoration: "none",
   };
-
-  const options = ["Search Game", "Search Channel"];
 
   return (
     <nav>
@@ -21,6 +20,7 @@ function Nav() {
         </Link>
 
         <MenuSearch />
+        <MenuPopular />
       </ul>
     </nav>
   );

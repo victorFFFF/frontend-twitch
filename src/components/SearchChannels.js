@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../App.css";
-import { Link } from "react-router-dom";
 
 export default function SearchChannel() {
   const [searchInput, setSearchInput] = useState("");
@@ -20,12 +19,14 @@ export default function SearchChannel() {
   ]);
   const [valid, setStatus] = useState(true);
   const [display2, setDisplay2] = useState();
+  const [empty, setEmpty] = useState(true);
   let gameIDMap = new Map();
   let display;
   let filter = "&live_only=false";
 
   //Find Channels
   const updateSearch = async (e) => {
+    setEmpty(false);
     e.preventDefault();
     setSearchedChannels([]);
     setStatus(true);
@@ -51,27 +52,27 @@ export default function SearchChannel() {
         const result = response.data.data;
 
         //Find game name from gameid
-        for (let i = 0; i < result.length; i++) {
-          console.log(result[i].game_id);
-          axios
-            .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id, {
-              headers: {
-                "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-                Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-              },
-            })
-            .then((response) => {
-              const result2 = response.data;
-              console.log(result2.data[0].name);
+        // for (let i = 0; i < result.length; i++) {
+        //   console.log(result[i].game_id);
+        //   axios
+        //     .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id, {
+        //       headers: {
+        //         "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
+        //         Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
+        //       },
+        //     })
+        //     .then((response) => {
+        //       const result2 = response.data;
+        //       console.log(result2.data[0].name);
 
-              if (!gameIDMap.has(result[i].game_id)) {
-                gameIDMap.set(result[i].game_id, result2.data[0].name);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+        //       if (!gameIDMap.has(result[i].game_id)) {
+        //         gameIDMap.set(result[i].game_id, result2.data[0].name);
+        //       }
+        //     })
+        //     .catch((err) => {
+        //       console.log(err);
+        //     });
+        // }
         for (let i = 0; i < result.length; i++) {
           let status = "Offline";
           console.log("!!!!");
@@ -113,12 +114,18 @@ export default function SearchChannel() {
   };
 
   //Control what to display
-  if (valid) {
+  if (valid && empty) {
+    display = "";
+  } else if (valid) {
     display = (
-      <div>
+      <div className="centerMiddle2">
         Filter by:
-        <button onClick={filterDefault}>Live/Offline</button>
-        <button onClick={filterLive}>Live</button>
+        <button onClick={filterDefault} style={{ padding: "10px" }}>
+          Live/Offline
+        </button>
+        <button onClick={filterLive} style={{ padding: "10px" }}>
+          Live
+        </button>
         {display2}
         <div>
           {searchedChannels.map((element, i) => (
@@ -150,7 +157,7 @@ export default function SearchChannel() {
 
   return (
     <div>
-      <form className="right">
+      <form className="centerForm">
         <input
           type="text"
           className="input"

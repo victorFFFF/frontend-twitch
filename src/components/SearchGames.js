@@ -44,11 +44,12 @@ function SearchGames() {
     setSearchInput(e.target.value);
   };
 
+  //Control what to display
   if (valid) {
     display = (
       <div>
         {display2}
-        <div className="centerList">
+        <div className="centerMiddle2">
           {searchedGames.map((name, i) => (
             <Link>
               <ol key={i}>
@@ -66,7 +67,7 @@ function SearchGames() {
 
   return (
     <div>
-      <form className="right">
+      <form className="centerForm">
         <input
           type="text"
           className="input"
