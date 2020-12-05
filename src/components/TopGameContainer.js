@@ -1,20 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TopGameView from "./TopGameView";
 
 function TopGameContainer() {
   const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
-  const [oAuth, setAuth] = useState("");
-  const stateRef = useRef();
-
-  //Get new OAuthenitcation key
-  const getOAuth = () => {
-    axios.get("oAuth").then((response) => {
-      const data = response.data;
-      setAuth(data);
-      console.log("oAuth : " + oAuth);
-    });
-  };
 
   //Update top game names
   const updateTopGame = async () => {
@@ -27,81 +16,40 @@ function TopGameContainer() {
         },
       })
       .then((response) => {
-        const result = response.data;
-        stateRef.current = result;
-      });
-
-    // Get game pic then put pic and name into array
-    for (let i = 0; i < stateRef.current.data.length; i++) {
-      await axios
-        .get(
-          `https://api.twitch.tv/helix/search/categories?query=` +
-            stateRef.current.data[i].name,
-          {
-            headers: {
-              "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-              Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-            },
-          }
-        )
-        .then((response) => {
-          const result = response.data;
-
-          let arrayElement = findString(
-            result.data,
-            stateRef.current.data[i].name,
-            result.data.length
-          );
-
+        const result = response.data.data;
+        for (let i = 0; i < result.length; i++) {
           if (i == 0) {
             setTopGames([
               {
-                gameName: stateRef.current.data[i].name,
-                box_art_url: arrayElement.box_art_url,
+                gameName: result[i].name,
+                picUrl: result[i].box_art_url.replace(
+                  "{width}x{height}",
+                  "100x150"
+                ),
               },
             ]);
           } else {
             setTopGames((prevState) => [
               ...prevState,
               {
-                gameName: stateRef.current.data[i].name,
-                box_art_url: arrayElement.box_art_url,
+                gameName: result[i].name,
+                picUrl: result[i].box_art_url.replace(
+                  "{width}x{height}",
+                  "100x150"
+                ),
               },
             ]);
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
-  //Find matching string in array and return the array element
-  const findString = (array, target, length) => {
-    for (let i = 0; i < length; i++) {
-      if (array[i].name === target) return array[i];
-    }
+        }
+      });
   };
 
   useEffect(() => {
     updateTopGame();
   }, []);
 
-  // const topGamesComponent = () => (
-  //   <TopGameView
-  //     topGames={topGames}
-  //     updateTopGame={updateTopGame}
-  //     getOAuth={getOAuth}
-  //   />
-  // );
-
-  return (
-    <TopGameView
-      topGames={topGames}
-      getOAuth={getOAuth}
-      updateTopGame={updateTopGame}
-    />
-  );
+  console.log(topGames);
+  return <TopGameView topGames={topGames} />;
 }
 
 export default TopGameContainer;

@@ -11,6 +11,7 @@ function TopStreamContainer() {
       title: "",
       liveSince: "",
       language: "",
+      pic: "",
     },
   ]);
 
@@ -38,6 +39,10 @@ function TopStreamContainer() {
               title: result[i].title,
               liveSince: result[i].started_at,
               language: result[i].language,
+              pic: result[i].thumbnail_url.replace(
+                "{width}x{height}",
+                "600x300"
+              ),
             },
           ]);
         }
@@ -48,7 +53,7 @@ function TopStreamContainer() {
     getTopStream();
   }, []);
 
-  return <TopStreamView topStream={topStream} getTopStream={getTopStream} />;
+  return <TopStreamView topStream={topStream} />;
 }
 
 export default TopStreamContainer;

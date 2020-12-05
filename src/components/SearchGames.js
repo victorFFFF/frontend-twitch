@@ -5,20 +5,22 @@ import { Link } from "react-router-dom";
 
 function SearchGames() {
   const [searchInput, setSearchInput] = useState("");
-  const [searchedGames, setSearchedGames] = useState([]);
+  const [searchedGames, setSearchedGames] = useState([{}]);
   const [valid, setStatus] = useState(true);
   const [display2, setDisplay2] = useState();
+  const [empty, setEmpty] = useState(true);
   let display;
 
   //search for games matching input
-  const updateSearch = (e) => {
+  const updateSearch = async (e) => {
     e.preventDefault();
     setSearchedGames([]);
+    setEmpty(false);
     setStatus(true);
     if (valid) {
       setDisplay2(<p>Top result of games/cateogories that match the query</p>);
     }
-    axios
+    await axios
       .get(
         "https://api.twitch.tv/helix/search/categories?query=" + searchInput,
         {
@@ -30,8 +32,15 @@ function SearchGames() {
       )
       .then((response) => {
         const result = response.data;
+        console.log(result);
         for (let i = 0; i < result.data.length; i++) {
-          setSearchedGames((prevState) => [...prevState, result.data[i].name]);
+          setSearchedGames((prevState) => [
+            ...prevState,
+            {
+              name: result.data[i].name,
+              pic: result.data[i].box_art_url.replace("52x72", "100x150"),
+            },
+          ]);
         }
       })
       .catch((err) => {
@@ -40,21 +49,21 @@ function SearchGames() {
       });
   };
   const handleInputChange = (e) => {
-    console.log(e.target.value);
     setSearchInput(e.target.value);
   };
 
   //Control what to display
-  if (valid) {
+  if (valid && empty) display = "";
+  else if (valid) {
     display = (
       <div>
         {display2}
         <div className="centerMiddle2">
-          {searchedGames.map((name, i) => (
+          {searchedGames.map((element, i) => (
             <Link>
               <ol key={i}>
-                {" "}
-                {i + 1 + ")"} {name}
+                {i + 1 + ")"} <img src={element.pic}></img>
+                {element.name}
               </ol>
             </Link>
           ))}

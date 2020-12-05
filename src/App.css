@@ -57,10 +57,24 @@ nav {
 .centerList {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  width: 600px;
-  height: 600px;
+  flex-direction: row;
+  width: 500px;
+  height: 1500px;
   align-content: space-between;
+  text-align: center;
+  padding-left: 600px;
+  padding-top: 50px;
+}
+
+.col {
+  flex: 1; /* additionally, equal width */
+
+  padding: 1em;
+  border: outset;
+}
+
+.border {
+  border-style: dotted;
 }
 
 .center {
@@ -94,7 +108,7 @@ nav {
   width: 1000px;
   height: 200px;
   top: 30%;
-  left: 40%;
+  left: 35%;
   margin-left: -50px; /* margin is -0.5 * dimension */
   margin-top: -25px;
 }

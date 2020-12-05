@@ -24,13 +24,24 @@ export default function SearchChannel() {
   let display;
   let filter = "&live_only=false";
 
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+  const filterLive = (e) => {
+    filter = "&live_only=true";
+    updateSearch(e);
+  };
+  const filterDefault = (e) => {
+    filter = "";
+    updateSearch(e);
+  };
+
   //Find Channels
   const updateSearch = async (e) => {
     setEmpty(false);
     e.preventDefault();
     setSearchedChannels([]);
     setStatus(true);
-    console.log(valid);
     if (valid) {
       setDisplay2(
         <p>Top results of channels that streamed within the last 6 months</p>
@@ -51,66 +62,56 @@ export default function SearchChannel() {
       .then((response) => {
         const result = response.data.data;
 
-        //Find game name from gameid
-        // for (let i = 0; i < result.length; i++) {
-        //   console.log(result[i].game_id);
-        //   axios
-        //     .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id, {
-        //       headers: {
-        //         "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-        //         Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-        //       },
-        //     })
-        //     .then((response) => {
-        //       const result2 = response.data;
-        //       console.log(result2.data[0].name);
-
-        //       if (!gameIDMap.has(result[i].game_id)) {
-        //         gameIDMap.set(result[i].game_id, result2.data[0].name);
-        //       }
-        //     })
-        //     .catch((err) => {
-        //       console.log(err);
-        //     });
-        // }
-        for (let i = 0; i < result.length; i++) {
-          let status = "Offline";
-          console.log("!!!!");
-          console.log(gameIDMap);
-          console.log(gameIDMap.get("Fortnite"));
-          if (result[i].is_live) status = "Live";
-          setSearchedChannels((prevState) => [
-            ...prevState,
-            {
-              language: result[i].broadcaster_language,
-              displayName: result[i].display_name,
-              id: result[i].id,
-              // gameName: gameIDMap.get(result[i].game_id),
-              gameID: result[i].game_id,
-              live: status,
-              liveSince: result[i].started_at,
-              thumbnail_url: result[i].thumbnail_url,
-              title: result[i].title,
-            },
-          ]);
-        }
+        //Find game name from gameid then put all the info into state
+        findGameName(result);
       })
       .catch((err) => {
         console.log(err);
         setStatus(false);
       });
   };
-  const handleInputChange = (e) => {
-    console.log(e.target.value);
-    setSearchInput(e.target.value);
-  };
-  const filterLive = (e) => {
-    filter = "&live_only=true";
-    updateSearch(e);
-  };
-  const filterDefault = (e) => {
-    filter = "";
-    updateSearch(e);
+
+  const findGameName = async (result) => {
+    //find game name corresponding to the game id
+    for (let i = 0; i < result.length; i++) {
+      await axios
+        .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id, {
+          headers: {
+            "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
+            Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
+          },
+        })
+        .then((response) => {
+          const result2 = response.data;
+
+          if (!gameIDMap.has(result[i].game_id))
+            gameIDMap.set(result[i].game_id, result2.data[0].name);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    //put all info into state
+    for (let i = 0; i < result.length; i++) {
+      let status = "Offline";
+
+      if (result[i].is_live) status = "Live";
+      setSearchedChannels((prevState) => [
+        ...prevState,
+        {
+          language: result[i].broadcaster_language,
+          displayName: result[i].display_name,
+          id: result[i].id,
+          gameName: gameIDMap.get(result[i].game_id),
+          gameID: result[i].game_id,
+          live: status,
+          liveSince: result[i].started_at,
+          thumbnail_url: result[i].thumbnail_url,
+          title: result[i].title,
+        },
+      ]);
+    }
   };
 
   //Control what to display
