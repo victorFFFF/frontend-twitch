@@ -5,16 +5,25 @@ import SearchGames from "../components/SearchGames";
 import SearchChannels from "../components/SearchChannels";
 import Home from "../components/Home";
 import TopGameContainer from "../components/TopGameContainer";
+import topGames from "../components/TopGameContainer";
 import TopStreamContainer from "../components/TopStreamContainer";
 
 const TheRoutes = () => (
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/search" component={Search} />
-    <Route path="/searchGame" component={SearchGames} />
-    <Route path="/searchChannel" component={SearchChannels} />
-    <Route path="/popularGames" component={TopGameContainer} />
-    <Route path="/popularStreams" component={TopStreamContainer} />
+    <Route path="/search" exact component={Search} />
+    <Route path="/searchGame" exact component={SearchGames} />
+    <Route path="/searchGame:name" component={SearchGames} />
+    <Route path="/searchChannel" exact component={SearchChannels} />
+    <Route path="/popularGames" exact component={TopGameContainer} />
+    <Route
+      path="/popularGames/:id"
+      component={() => {
+        window.location.href = "https://twitch.com";
+        return null;
+      }}
+    />
+    <Route path="/popularStreams" exact component={TopStreamContainer} />
   </Switch>
 );
 

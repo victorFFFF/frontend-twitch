@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "./api";
 import "../App.css";
 
 export default function SearchChannel() {
@@ -20,6 +20,8 @@ export default function SearchChannel() {
   const [valid, setStatus] = useState(true);
   const [display2, setDisplay2] = useState();
   const [empty, setEmpty] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   let gameIDMap = new Map();
   let display;
   let filter = "&live_only=false";
@@ -39,6 +41,7 @@ export default function SearchChannel() {
   //Find Channels
   const updateSearch = async (e) => {
     setEmpty(false);
+    setLoading(true);
     e.preventDefault();
     setSearchedChannels([]);
     setStatus(true);
@@ -47,17 +50,11 @@ export default function SearchChannel() {
         <p>Top results of channels that streamed within the last 6 months</p>
       );
     }
-    await axios
+    await api
       .get(
         "https://api.twitch.tv/helix/search/channels?query=" +
           searchInput +
-          filter,
-        {
-          headers: {
-            "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-            Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-          },
-        }
+          filter
       )
       .then((response) => {
         const result = response.data.data;
@@ -74,13 +71,8 @@ export default function SearchChannel() {
   const findGameName = async (result) => {
     //find game name corresponding to the game id
     for (let i = 0; i < result.length; i++) {
-      await axios
-        .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id, {
-          headers: {
-            "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-            Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-          },
-        })
+      await api
+        .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id)
         .then((response) => {
           const result2 = response.data;
 
@@ -112,10 +104,13 @@ export default function SearchChannel() {
         },
       ]);
     }
+
+    setLoading(false);
   };
 
   //Control what to display
-  if (valid && empty) {
+  if (loading) display = <h3 className="centerMiddle">loading...</h3>;
+  else if (valid && empty) {
     display = "";
   } else if (valid) {
     display = (
@@ -158,6 +153,11 @@ export default function SearchChannel() {
 
   return (
     <div>
+      <p className="center">
+        Returns a list of channels (users who have streamed within the past 6
+        months) that match the query via channel name or description either
+        entirely or partially. Results include both live and offline channels
+      </p>
       <form className="centerForm">
         <input
           type="text"
@@ -165,7 +165,9 @@ export default function SearchChannel() {
           placeholder="Search Channels"
           onChange={handleInputChange}
         />
-        <button onClick={updateSearch}>Search</button>
+        <button onClick={updateSearch} disabled={loading}>
+          Search
+        </button>
       </form>
       {display}
     </div>

@@ -12,7 +12,7 @@ function TopGameView({ topGames }) {
             <p></p>
             <img src={element.picUrl} alt={"pic"} />
             <p></p>
-            <Link to="/a">{element.gameName} </Link>
+            <Link to={`/popularGames/${element.id}`}>{element.gameName} </Link>
           </ol>
         ))}
       </div>

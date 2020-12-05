@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../App.css";
 import { Link } from "react-router-dom";
+import api from "./api";
 
 function SearchGames() {
   const [searchInput, setSearchInput] = useState("");
@@ -20,16 +20,8 @@ function SearchGames() {
     if (valid) {
       setDisplay2(<p>Top result of games/cateogories that match the query</p>);
     }
-    await axios
-      .get(
-        "https://api.twitch.tv/helix/search/categories?query=" + searchInput,
-        {
-          headers: {
-            "Client-ID": `${process.env.REACT_APP_CLIENTID}`,
-            Authorization: `Bearer ${process.env.REACT_APP_OAUTHTOKEN}`,
-          },
-        }
-      )
+    await api
+      .get("https://api.twitch.tv/helix/search/categories?query=" + searchInput)
       .then((response) => {
         const result = response.data;
         console.log(result);
@@ -57,15 +49,17 @@ function SearchGames() {
   else if (valid) {
     display = (
       <div>
-        {display2}
-        <div className="centerMiddle2">
+        <div className="centerList">
+          {display2}
           {searchedGames.map((element, i) => (
-            <Link>
+            <div className="col">
               <ol key={i}>
-                {i + 1 + ")"} <img src={element.pic}></img>
-                {element.name}
+                <Link to={`/searchGame/${element.name}`}>
+                  {i + 1 + ")"} <img src={element.pic} alt="pic"></img>
+                  <p>{element.name}</p>
+                </Link>
               </ol>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -76,6 +70,10 @@ function SearchGames() {
 
   return (
     <div>
+      <p className="center">
+        Returns a list of games or categories that match the query via name
+        either entirely or partially.
+      </p>
       <form className="centerForm">
         <input
           type="text"

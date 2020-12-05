@@ -9,9 +9,8 @@ export default function TopStreamView({ topStream, getTopStream }) {
           {topStream.map((element, i) => (
             <ol key={i}>
               <h3>
-                {i + 1 + ")"} {element.userName}
-                <p></p>
                 <img src={element.pic}></img>
+                {i + 1 + ")"} {element.userName}
               </h3>
               <p>{"Views: " + element.viewCount}</p>
               <p>{"Game :" + element.gameName}</p>
