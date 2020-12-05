@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import api from "./api";
 import "../App.css";
+import SearchChannelView from "./SearchChannelView";
 
-export default function SearchChannel() {
+export default function SearchChannelContainer() {
   const [searchInput, setSearchInput] = useState("");
   const [searchedChannels, setSearchedChannels] = useState([
     {
@@ -108,68 +109,18 @@ export default function SearchChannel() {
     setLoading(false);
   };
 
-  //Control what to display
-  if (loading) display = <h3 className="centerMiddle">loading...</h3>;
-  else if (valid && empty) {
-    display = "";
-  } else if (valid) {
-    display = (
-      <div className="centerMiddle2">
-        Filter by:
-        <button onClick={filterDefault} style={{ padding: "10px" }}>
-          Live/Offline
-        </button>
-        <button onClick={filterLive} style={{ padding: "10px" }}>
-          Live
-        </button>
-        {display2}
-        <div>
-          {searchedChannels.map((element, i) => (
-            <ol key={i}>
-              <img
-                src={element.thumbnail_url}
-                alt="pic"
-                style={{ height: "100px" }}
-              ></img>
-              <h3>
-                {i + 1 + ")"} {element.displayName}
-                {}
-              </h3>
-              <p>User ID: {element.id}</p>
-              <p>Status: {element.live}</p>
-              <p>Live Since: {element.liveSince}</p>
-              <p>BroadCast langauge: {element.language}</p>
-              <p>Stream Title: {element.title}</p>
-              <p>Game : {element.gameName}</p>
-              <p>Game ID: {element.gameID}</p>
-            </ol>
-          ))}
-        </div>
-      </div>
-    );
-  } else {
-    display = <p className="centerMiddle">No results.</p>;
-  }
-
   return (
-    <div>
-      <p className="center">
-        Returns a list of channels (users who have streamed within the past 6
-        months) that match the query via channel name or description either
-        entirely or partially. Results include both live and offline channels
-      </p>
-      <form className="centerForm">
-        <input
-          type="text"
-          className="input"
-          placeholder="Search Channels"
-          onChange={handleInputChange}
-        />
-        <button onClick={updateSearch} disabled={loading}>
-          Search
-        </button>
-      </form>
-      {display}
-    </div>
+    <SearchChannelView
+      display={display}
+      valid={valid}
+      filterDefault={filterDefault}
+      filterLive={filterLive}
+      display2={display2}
+      searchedChannels={searchedChannels}
+      handleInputChange={handleInputChange}
+      loading={loading}
+      empty={empty}
+      updateSearch={updateSearch}
+    ></SearchChannelView>
   );
 }

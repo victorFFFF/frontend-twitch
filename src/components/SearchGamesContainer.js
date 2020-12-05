@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
 import api from "./api";
+import SearchGamesView from "./SearchGamesView";
 
-function SearchGames() {
+function SearchGamesContainer() {
   const [searchInput, setSearchInput] = useState("");
   const [searchedGames, setSearchedGames] = useState([{}]);
   const [valid, setStatus] = useState(true);
   const [display2, setDisplay2] = useState();
   const [empty, setEmpty] = useState(true);
-  let display;
 
   //search for games matching input
   const updateSearch = async (e) => {
@@ -44,48 +43,16 @@ function SearchGames() {
     setSearchInput(e.target.value);
   };
 
-  //Control what to display
-  if (valid && empty) display = "";
-  else if (valid) {
-    display = (
-      <div>
-        <div className="centerList">
-          {display2}
-          {searchedGames.map((element, i) => (
-            <div className="col">
-              <ol key={i}>
-                <Link to={`/searchGame/${element.name}`}>
-                  {i + 1 + ")"} <img src={element.pic} alt="pic"></img>
-                  <p>{element.name}</p>
-                </Link>
-              </ol>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  } else {
-    display = <p className="centerMiddle">No results.</p>;
-  }
-
   return (
-    <div>
-      <p className="center">
-        Returns a list of games or categories that match the query via name
-        either entirely or partially.
-      </p>
-      <form className="centerForm">
-        <input
-          type="text"
-          className="input"
-          placeholder="Search Games"
-          onChange={handleInputChange}
-        />
-        <button onClick={updateSearch}>Search</button>
-      </form>
-      {display}
-    </div>
+    <SearchGamesView
+      valid={valid}
+      empty={empty}
+      display2={display2}
+      handleInputChange={handleInputChange}
+      updateSearch={updateSearch}
+      searchedGames={searchedGames}
+    ></SearchGamesView>
   );
 }
 
-export default SearchGames;
+export default SearchGamesContainer;

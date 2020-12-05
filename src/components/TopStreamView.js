@@ -1,6 +1,6 @@
 import "../App.css";
 
-export default function TopStreamView({ topStream, getTopStream }) {
+export default function TopStreamView({ topStream }) {
   return (
     <div>
       <div className="centerMiddle2">

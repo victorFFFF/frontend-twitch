@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Search from "../components/Search";
-import SearchGames from "../components/SearchGames";
-import SearchChannels from "../components/SearchChannels";
+import SearchGamesContainer from "../components/SearchGamesContainer";
+import SearchChannelContainer from "../components/SearchChannelsContainer";
 import Home from "../components/Home";
 import TopGameContainer from "../components/TopGameContainer";
 import topGames from "../components/TopGameContainer";
@@ -12,9 +12,9 @@ const TheRoutes = () => (
   <Switch>
     <Route path="/" exact component={Home} />
     <Route path="/search" exact component={Search} />
-    <Route path="/searchGame" exact component={SearchGames} />
-    <Route path="/searchGame:name" component={SearchGames} />
-    <Route path="/searchChannel" exact component={SearchChannels} />
+    <Route path="/searchGame" exact component={SearchGamesContainer} />
+    <Route path="/searchGame:name" component={SearchGamesContainer} />
+    <Route path="/searchChannel" exact component={SearchChannelContainer} />
     <Route path="/popularGames" exact component={TopGameContainer} />
     <Route
       path="/popularGames/:id"
