@@ -57,17 +57,22 @@ nav {
 .centerList {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: column;
   width: 500px;
-  height: 1500px;
+  height: 1900px;
   align-content: space-between;
   text-align: center;
-  padding-left: 600px;
-  padding-top: 50px;
 }
 
 .centerList2 {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 500px;
+  height: 1500px;
+  align-content: space-between;
+  text-align: center;
+  padding-top: 50px;
 }
 
 .col {
@@ -95,7 +100,7 @@ nav {
   top: 20%;
   left: 45%;
   margin-left: -50px; /* margin is -0.5 * dimension */
-  margin-top: -25px;
+  margin-top: 20px;
 }
 .centerMiddle {
   position: absolute;
@@ -119,4 +124,8 @@ nav {
 
 .wrapAround {
   word-wrap: break-word;
+}
+
+.topSpace {
+  padding: 100px;
 }

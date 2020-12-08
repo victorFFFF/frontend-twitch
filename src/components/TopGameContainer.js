@@ -22,7 +22,7 @@ function TopGameContainer() {
               gameName: result[i].name,
               picUrl: result[i].box_art_url.replace(
                 "{width}x{height}",
-                "100x150"
+                "1000x1000"
               ),
             },
           ]);
@@ -34,7 +34,7 @@ function TopGameContainer() {
               gameName: result[i].name,
               picUrl: result[i].box_art_url.replace(
                 "{width}x{height}",
-                "100x150"
+                "1000x1000"
               ),
             },
           ]);

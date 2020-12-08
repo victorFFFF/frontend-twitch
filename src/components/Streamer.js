@@ -1,11 +1,15 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
 import api from "./api";
+import Card from "react-bootstrap/Card";
 
 export default function Streamer({ match }) {
   const [streamers, setStreamers] = useState([{}]);
   const [gameName, setGameName] = useState();
   const [totalViews, setTotalView] = useState(0);
+  const [loading, setLoading] = useState(true);
+  let display;
+  let display2;
 
   const getStreamer = async () => {
     await api
@@ -45,6 +49,7 @@ export default function Streamer({ match }) {
           }
           setTotalView((prevState) => prevState + result[i].viewer_count);
         }
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -53,22 +58,39 @@ export default function Streamer({ match }) {
     getStreamer();
   }, []);
 
+  if (loading) {
+    display2 = "Loading...";
+  } else {
+    display = (
+      <div>
+        <div className="center" style={{ padding: "50px" }}>
+          <h3>{gameName}</h3>
+          {totalViews + " viewers"}
+        </div>
+
+        <div className="card-group">
+          {streamers.map((streamer, i) => (
+            <ol key={i}>
+              <Card style={{ width: "30rem" }}>
+                <Card.Img variant="top" src={streamer.pic} />
+                <Card.Body>
+                  <Card.Title>{streamer.title}</Card.Title>
+                  <Card.Text>
+                    {streamer.name}{" "}
+                    <p className="text-muted">{streamer.views + " viewers"}</p>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </ol>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
-      <div className="center">
-        <h3>{gameName}</h3>
-        {totalViews + " viewers"}
-      </div>
-      <div className="centerList2">
-        {streamers.map((streamer, i) => (
-          <ol key={i} className="col2">
-            <img src={streamer.pic}></img>
-            <h3>{streamer.title}</h3>
-            <p>{streamer.name}</p>
-            {streamer.views + " viewers"}
-          </ol>
-        ))}
-      </div>
+      <p className="centerMiddle">{display2}</p>
+      {display}
     </div>
   );
 }

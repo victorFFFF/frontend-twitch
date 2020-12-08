@@ -19,24 +19,29 @@ function TopStreamContainer() {
   const getTopStream = async () => {
     //get game names
     updateTopStream([]);
-    await api.get("https://api.twitch.tv/helix/streams").then((response) => {
-      const result = response.data.data;
-      console.log(result);
-      for (let i = 0; i < result.length; i++) {
-        updateTopStream((prevState) => [
-          ...prevState,
-          {
-            userName: result[i].user_name,
-            viewCount: result[i].viewer_count,
-            gameName: result[i].game_name,
-            title: result[i].title,
-            liveSince: result[i].started_at,
-            language: result[i].language,
-            pic: result[i].thumbnail_url.replace("{width}x{height}", "600x300"),
-          },
-        ]);
-      }
-    });
+    await api
+      .get("https://api.twitch.tv/helix/streams?first=100")
+      .then((response) => {
+        const result = response.data.data;
+        console.log(result);
+        for (let i = 0; i < result.length; i++) {
+          updateTopStream((prevState) => [
+            ...prevState,
+            {
+              userName: result[i].user_name,
+              viewCount: result[i].viewer_count,
+              gameName: result[i].game_name,
+              title: result[i].title,
+              liveSince: result[i].started_at,
+              language: result[i].language,
+              pic: result[i].thumbnail_url.replace(
+                "{width}x{height}",
+                "600x300"
+              ),
+            },
+          ]);
+        }
+      });
   };
 
   useEffect(() => {

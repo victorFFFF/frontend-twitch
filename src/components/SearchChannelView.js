@@ -1,4 +1,4 @@
-import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 export default function SearchChannelView({
   display,
@@ -18,34 +18,41 @@ export default function SearchChannelView({
     display = "";
   } else if (valid) {
     display = (
-      <div className="centerMiddle2">
+      <div className="topSpace">
         Filter by:
-        <button onClick={filterDefault} style={{ padding: "10px" }}>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          onClick={filterDefault}
+          style={{ padding: "10px" }}
+        >
           Live/Offline
         </button>
-        <button onClick={filterLive} style={{ padding: "10px" }}>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          onClick={filterLive}
+          style={{ padding: "10px" }}
+        >
           Live
         </button>
         {display2}
-        <div>
+        <div className="card-group">
           {searchedChannels.map((element, i) => (
             <ol key={i}>
-              <img
-                src={element.thumbnail_url}
-                alt="pic"
-                style={{ height: "100px" }}
-              ></img>
-              <h3>
-                {i + 1 + "."} {element.displayName}
-                {}
-              </h3>
-              <p>User ID: {element.id}</p>
-              <p>Status: {element.live}</p>
-              <p>Live Since: {element.liveSince}</p>
-              <p>BroadCast langauge: {element.language}</p>
-              <p>Stream Title: {element.title}</p>
-              <p>Game : {element.gameName}</p>
-              <p>Game ID: {element.gameID}</p>
+              <Card style={{ width: "15rem" }}>
+                <Card.Img variant="top" src={element.thumbnail_url} />
+                <Card.Body>
+                  {element.displayName}
+                  <p>User ID: {element.id}</p>
+                  <p>Status: {element.live}</p>
+                  <p>Live Since: {element.liveSince}</p>
+                  <p>BroadCast langauge: {element.language}</p>
+                  <p>Stream Title: {element.title}</p>
+                  <p>Game : {element.gameName}</p>
+                  <p>Game ID: {element.gameID}</p>
+                </Card.Body>
+              </Card>
             </ol>
           ))}
         </div>
@@ -57,11 +64,14 @@ export default function SearchChannelView({
 
   return (
     <div>
-      <p className="center">
-        Returns a list of channels (users who have streamed within the past 6
-        months) that match the query via channel name or description either
-        entirely or partially. Results include both live and offline channels
-      </p>
+      <div className="center">
+        <h1>Search Channel</h1>
+        <p>
+          Returns a list of channels (users who have streamed within the past 6
+          months) that match the query via channel name or description either
+          entirely or partially. Results include both live and offline channels
+        </p>
+      </div>
       <form className="centerForm">
         <input
           type="text"
@@ -69,13 +79,14 @@ export default function SearchChannelView({
           placeholder="Search Channels"
           onChange={handleInputChange}
         />
-        <Button
-          variant="outline-dark"
+        <button
+          type="button"
+          class="btn btn-dark"
           onClick={updateSearch}
           disabled={loading}
         >
           Search
-        </Button>
+        </button>
       </form>
       {display}
     </div>
