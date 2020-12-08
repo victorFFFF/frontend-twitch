@@ -3,7 +3,9 @@ import TopGameView from "./TopGameView";
 import api from "./api";
 
 function TopGameContainer() {
-  const [topGames, setTopGames] = useState([{ gameName: "", picUrl: "" }]);
+  const [topGames, setTopGames] = useState([
+    { id: "", gameName: "", picUrl: "" },
+  ]);
 
   //Update top game names
   const updateTopGame = async () => {
@@ -11,10 +13,12 @@ function TopGameContainer() {
 
     await api.get("https://api.twitch.tv/helix/games/top").then((response) => {
       const result = response.data.data;
+      console.log(result);
       for (let i = 0; i < result.length; i++) {
         if (i == 0) {
           setTopGames([
             {
+              id: result[i].id,
               gameName: result[i].name,
               picUrl: result[i].box_art_url.replace(
                 "{width}x{height}",
@@ -26,6 +30,7 @@ function TopGameContainer() {
           setTopGames((prevState) => [
             ...prevState,
             {
+              id: result[i].id,
               gameName: result[i].name,
               picUrl: result[i].box_art_url.replace(
                 "{width}x{height}",

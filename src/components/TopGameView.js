@@ -11,7 +11,6 @@ function TopGameView({ topGames }) {
             {i + 1 + "."}
             <p></p>
             <img src={element.picUrl} alt={"pic"} />
-            <p></p>
             <Link to={`/popularGames/${element.id}`}>{element.gameName} </Link>
           </ol>
         ))}

@@ -10,6 +10,7 @@ export default function TopStreamView({ topStream }) {
             <ol key={i}>
               <h3>
                 <img src={element.pic}></img>
+                <br></br>
                 {i + 1 + ")"} {element.userName}
               </h3>
               <p>{"Views: " + element.viewCount}</p>

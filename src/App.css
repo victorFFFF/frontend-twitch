@@ -66,15 +66,19 @@ nav {
   padding-top: 50px;
 }
 
+.centerList2 {
+  display: flex;
+}
+
 .col {
   flex: 1; /* additionally, equal width */
 
   padding: 1em;
   border: outset;
 }
-
-.border {
-  border-style: dotted;
+.col2 {
+  padding: 1em;
+  border: outset;
 }
 
 .center {
@@ -111,4 +115,8 @@ nav {
   left: 35%;
   margin-left: -50px; /* margin is -0.5 * dimension */
   margin-top: -25px;
+}
+
+.wrapAround {
+  word-wrap: break-word;
 }

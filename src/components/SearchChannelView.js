@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+
 export default function SearchChannelView({
   display,
   valid,
@@ -34,7 +36,7 @@ export default function SearchChannelView({
                 style={{ height: "100px" }}
               ></img>
               <h3>
-                {i + 1 + ")"} {element.displayName}
+                {i + 1 + "."} {element.displayName}
                 {}
               </h3>
               <p>User ID: {element.id}</p>
@@ -67,9 +69,13 @@ export default function SearchChannelView({
           placeholder="Search Channels"
           onChange={handleInputChange}
         />
-        <button onClick={updateSearch} disabled={loading}>
+        <Button
+          variant="outline-dark"
+          onClick={updateSearch}
+          disabled={loading}
+        >
           Search
-        </button>
+        </Button>
       </form>
       {display}
     </div>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default function SearchGamesView({
   valid,
@@ -20,8 +21,9 @@ export default function SearchGamesView({
             <div className="col">
               <ol key={i}>
                 <Link to={`/searchGame/${element.name}`}>
-                  {i + 1 + ")"} <img src={element.pic} alt="pic"></img>
-                  <p>{element.name}</p>
+                  <img src={element.pic} alt="pic"></img>
+                  <br></br>
+                  {i + 1 + ". " + element.name}
                 </Link>
               </ol>
             </div>
@@ -46,7 +48,9 @@ export default function SearchGamesView({
           placeholder="Search Games"
           onChange={handleInputChange}
         />
-        <button onClick={updateSearch}>Search</button>
+        <Button variant="outline-dark" onClick={updateSearch}>
+          Search
+        </Button>
       </form>
       {display}
     </div>
