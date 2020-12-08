@@ -68,28 +68,28 @@ export default function Streamer({ match }) {
           {totalViews + " viewers"}
         </div>
 
-        <div className="card-group">
-          {streamers.map((streamer, i) => (
-            <ol key={i}>
-              <Card style={{ width: "30rem" }}>
-                <Card.Img variant="top" src={streamer.pic} />
-                <Card.Body>
-                  <Card.Title>{streamer.title}</Card.Title>
-                  <Card.Text>
-                    {streamer.name}{" "}
-                    <p className="text-muted">{streamer.views + " viewers"}</p>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </ol>
-          ))}
+        <div className="moveRight">
+          <div className="card-group">
+            {streamers.map((streamer, i) => (
+              <ol key={i}>
+                <Card style={{ width: "30rem" }}>
+                  <Card.Img variant="top" src={streamer.pic} />
+                  <Card.Body>
+                    <Card.Title>{streamer.title}</Card.Title>
+                    <Card.Text>{streamer.name}</Card.Text>
+                    <Card.Text>{streamer.views + " viewers"}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </ol>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
   return (
     <div>
-      <p className="centerMiddle">{display2}</p>
+      <div className="centerMiddle">{display2}</div>
       {display}
     </div>
   );

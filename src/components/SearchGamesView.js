@@ -39,11 +39,11 @@ export default function SearchGamesView({
 
   return (
     <div>
-      <p className="center">
+      <div className="center">
         <h1>Search Games</h1>
         Returns a list of games or categories that match the query via name
         either entirely or partially.
-      </p>
+      </div>
       <form className="centerForm">
         <input
           type="text"
@@ -51,7 +51,7 @@ export default function SearchGamesView({
           placeholder="Search Games"
           onChange={handleInputChange}
         />
-        <button type="button" class="btn btn-dark" onClick={updateSearch}>
+        <button type="button" className="btn btn-dark" onClick={updateSearch}>
           Search
         </button>
       </form>

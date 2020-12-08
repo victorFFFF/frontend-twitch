@@ -5,7 +5,9 @@ import Card from "react-bootstrap/Card";
 function TopGameView({ topGames }) {
   return (
     <div>
-      <h3 className="center">Top Viewed Categories</h3>
+      <h3 className="center">
+        <p className="topSpace">Top Viewed Categories</p>
+      </h3>
       <div className="card-group">
         {topGames.map((element, i) => (
           <ol key={i}>

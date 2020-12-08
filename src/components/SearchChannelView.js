@@ -22,7 +22,7 @@ export default function SearchChannelView({
         Filter by:
         <button
           type="button"
-          class="btn btn-outline-primary"
+          className="btn btn-outline-primary"
           onClick={filterDefault}
           style={{ padding: "10px" }}
         >
@@ -30,7 +30,7 @@ export default function SearchChannelView({
         </button>
         <button
           type="button"
-          class="btn btn-outline-success"
+          className="btn btn-outline-success"
           onClick={filterLive}
           style={{ padding: "10px" }}
         >
@@ -43,7 +43,7 @@ export default function SearchChannelView({
               <Card style={{ width: "15rem" }}>
                 <Card.Img variant="top" src={element.thumbnail_url} />
                 <Card.Body>
-                  {element.displayName}
+                  User: {element.displayName}
                   <p>User ID: {element.id}</p>
                   <p>Status: {element.live}</p>
                   <p>Live Since: {element.liveSince}</p>
@@ -81,7 +81,7 @@ export default function SearchChannelView({
         />
         <button
           type="button"
-          class="btn btn-dark"
+          className="btn btn-dark"
           onClick={updateSearch}
           disabled={loading}
         >

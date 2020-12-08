@@ -13,7 +13,7 @@ function TopGameContainer() {
 
     await api.get("https://api.twitch.tv/helix/games/top").then((response) => {
       const result = response.data.data;
-      console.log(result);
+      console.log(response.data);
       for (let i = 0; i < result.length; i++) {
         if (i == 0) {
           setTopGames([

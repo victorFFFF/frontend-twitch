@@ -59,6 +59,7 @@ export default function SearchChannelContainer() {
       )
       .then((response) => {
         const result = response.data.data;
+        console.group(result);
 
         //Find game name from gameid then put all the info into state
         findGameName(result);
@@ -66,6 +67,8 @@ export default function SearchChannelContainer() {
       .catch((err) => {
         console.log(err);
         setStatus(false);
+        setEmpty(false);
+        setLoading(false);
       });
   };
 
@@ -107,6 +110,7 @@ export default function SearchChannelContainer() {
     }
 
     setLoading(false);
+    console.log(valid);
   };
 
   return (
