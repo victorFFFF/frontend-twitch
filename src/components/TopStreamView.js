@@ -14,14 +14,12 @@ export default function TopStreamView({ topStream }) {
                   <Card.Img variant="top" src={element.pic} />
                   <Card.Body>
                     <Card.Title>{element.title}</Card.Title>
-                    <Card.Text>
-                      <p>{element.userName}</p>
-                      <p>{element.gameName}</p>
-                      <p>{element.viewCount + " viewers"}</p>
-                      <p>{element.language}</p>
-                      <p className="text-muted">
-                        {"Live since: " + element.liveSince}
-                      </p>
+                    <Card.Text>{element.userName} </Card.Text>
+                    <Card.Text>{element.gameName} </Card.Text>
+                    <Card.Text>{element.viewCOunt} </Card.Text>
+                    <Card.Text>{element.langauge} </Card.Text>
+                    <Card.Text className="text-muted">
+                      {"Live since: " + element.liveSince}{" "}
                     </Card.Text>
                   </Card.Body>
                 </Card>

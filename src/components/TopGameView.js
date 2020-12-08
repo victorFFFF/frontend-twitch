@@ -27,6 +27,7 @@ function TopGameView({ topGames }) {
           </ol>
         ))}
       </div>
+      <button className="readMore">View more</button>
     </div>
   );
 }
