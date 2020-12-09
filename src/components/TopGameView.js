@@ -2,7 +2,7 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
-function TopGameView({ topGames }) {
+function TopGameView({ topGames, clickNext, clickPrev }) {
   return (
     <div>
       <h3 className="center">
@@ -27,7 +27,12 @@ function TopGameView({ topGames }) {
           </ol>
         ))}
       </div>
-      <button className="readMore">View more</button>
+      <button className="Previous" onClick={clickPrev}>
+        Previous
+      </button>
+      <button className="Next" onClick={clickNext}>
+        Next
+      </button>
     </div>
   );
 }

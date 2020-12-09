@@ -133,7 +133,14 @@ nav {
   padding-left: 40px;
 }
 
-.readMore {
-  bottom: 10px;
-  margin-left: 45%;
+.Next {
+  display: inline-block;
+  margin-top: 100px;
+  margin: 50px;
+  margin-bottom: 100px;
+}
+
+.Previous {
+  margin-left: 40%;
+  bottom: 1000px;
 }

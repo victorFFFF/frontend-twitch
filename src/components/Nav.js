@@ -9,7 +9,6 @@ function Nav() {
     color: "White",
     textDecoration: "none",
   };
-  console.log("NAV");
   return (
     <nav>
       <ul className="nav-links">
