@@ -1,13 +1,18 @@
 import "../App.css";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 
-function TopGameView({ topGames, clickNext, clickPrev }) {
+function TopGameView({ topGames, clickNext, clickPrev, disable, counter }) {
   return (
     <div>
-      <h3 className="center">
-        <p className="topSpace">Top Viewed Categories</p>
-      </h3>
+      <div className="topSpace">
+        <div className="center">
+          <h1>Top Viewed Categories</h1>
+          {"Page " + counter}
+        </div>
+      </div>
+
       <div className="card-group">
         {topGames.map((element, i) => (
           <ol key={i}>
@@ -27,12 +32,16 @@ function TopGameView({ topGames, clickNext, clickPrev }) {
           </ol>
         ))}
       </div>
-      <button className="Previous" onClick={clickPrev}>
-        Previous
-      </button>
-      <button className="Next" onClick={clickNext}>
-        Next
-      </button>
+
+      <div className="Next">
+        <Button variant="link">{counter}</Button>
+        <Button variant="outline-primary" onClick={clickPrev} hidden={disable}>
+          Previous
+        </Button>
+        <Button variant="outline-primary" onClick={clickNext}>
+          Next Page
+        </Button>
+      </div>
     </div>
   );
 }

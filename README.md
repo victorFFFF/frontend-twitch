@@ -71,7 +71,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### TO DO
 
-- [ ] implement pagination
+- [x] implement pagination
 - [ ] count the true number of viewer per cateogory
 - [ ] implement some backend functionalities
 - [ ] have dynamic link for users/games

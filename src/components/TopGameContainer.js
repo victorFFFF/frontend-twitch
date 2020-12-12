@@ -8,14 +8,13 @@ function TopGameContainer() {
   ]);
   const [cursor, setCursor] = useState([]);
   const [counter, setCount] = useState(1);
+  const [disable, setDisable] = useState(false);
   var next = false;
   var prev = false;
   var page;
 
   //Update top game names
   const updateTopGame = async () => {
-    console.log("-------------------------------");
-    //get game names
     page = cursor;
 
     if (page.length !== 0) page = page[page.length - 1];
@@ -47,13 +46,10 @@ function TopGameContainer() {
       }
     }
 
-    console.log("before api");
-    console.log(page);
     await api
       .get(`https://api.twitch.tv/helix/games/top?after=${page}`)
       .then((response) => {
         const result = response.data.data;
-        console.log(response);
         page = response.data.pagination.cursor;
         if (next) setCursor((prevState) => [...prevState, page]);
 
@@ -84,7 +80,9 @@ function TopGameContainer() {
           }
         }
       });
-    console.log(cursor);
+    console.log(cursor.length);
+    if (cursor.length === 0) setDisable(true);
+    else setDisable(false);
   };
 
   const clickNext = () => {
@@ -108,6 +106,8 @@ function TopGameContainer() {
       topGames={topGames}
       clickNext={clickNext}
       clickPrev={clickPrev}
+      disable={disable}
+      counter={counter}
     />
   );
 }
