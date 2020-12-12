@@ -7,43 +7,58 @@ function TopGameContainer() {
     { id: "", gameName: "", picUrl: "" },
   ]);
   const [cursor, setCursor] = useState([]);
-  const [param, setParam] = useState("");
+  const [counter, setCount] = useState(1);
   var next = false;
   var prev = false;
   var page;
 
   //Update top game names
   const updateTopGame = async () => {
+    console.log("-------------------------------");
     //get game names
     page = cursor;
 
-    if (page.length != 0) page = page[page.length - 1];
+    if (page.length !== 0) page = page[page.length - 1];
 
     if (next) {
+      setCount((prevState) => prevState + 1);
       console.log("next");
-      // setParam(`after=` + page);
     }
 
     if (prev) {
-      if (cursor.length >= 2) {
-        console.log("prev");
+      console.log("prev");
+      setCount((prevState) => prevState - 1);
+
+      //EVEN
+      if (counter % 2 === 0) {
+        console.log("EVEN");
         cursor.pop();
-        page = cursor.pop();
-      } else if (cursor.length == 1) {
+        if (cursor.length === 0) page = "";
+        else {
+          page = cursor;
+          page = page[cursor.length - 1];
+        }
+
+        //ODD
+      } else if (counter % 2 !== 0) {
         cursor.pop();
-        page = "";
-      } else page = "";
+        page = cursor;
+        page = page[cursor.length - 1];
+      }
     }
 
+    console.log("before api");
+    console.log(page);
     await api
       .get(`https://api.twitch.tv/helix/games/top?after=${page}`)
       .then((response) => {
         const result = response.data.data;
+        console.log(response);
         page = response.data.pagination.cursor;
         if (next) setCursor((prevState) => [...prevState, page]);
 
         for (let i = 0; i < result.length; i++) {
-          if (i == 0) {
+          if (i === 0) {
             setTopGames([
               {
                 id: result[i].id,
