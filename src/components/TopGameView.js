@@ -2,8 +2,11 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import ViewCount from "./ViewCount";
 
 function TopGameView({ topGames, clickNext, clickPrev, disable, counter }) {
+  console.log("TOPGAMEVIEW");
+  console.log(topGames);
   return (
     <div>
       <div className="topSpace">
@@ -20,10 +23,9 @@ function TopGameView({ topGames, clickNext, clickPrev, disable, counter }) {
               <Card.Img variant="top" src={element.picUrl} />
               <Card.Body>
                 <Card.Title>{element.gameName}</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
+
+                <ViewCount topGames={topGames[i].id}></ViewCount>
+
                 <Link to={`/popularGames/${element.id}`}>
                   {"Watch " + element.gameName}
                 </Link>

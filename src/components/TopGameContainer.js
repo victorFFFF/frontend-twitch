@@ -55,6 +55,7 @@ function TopGameContainer() {
 
         for (let i = 0; i < result.length; i++) {
           if (i === 0) {
+            setTopGames([]);
             setTopGames([
               {
                 id: result[i].id,
