@@ -109,6 +109,7 @@ function TopGameContainer() {
       clickPrev={clickPrev}
       disable={disable}
       counter={counter}
+      cursor={cursor}
     />
   );
 }

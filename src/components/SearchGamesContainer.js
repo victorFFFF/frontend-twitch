@@ -30,6 +30,7 @@ function SearchGamesContainer() {
             {
               name: result.data[i].name,
               pic: result.data[i].box_art_url.replace("52x72", "1000x1000"),
+              id: result.data[i].id,
             },
           ]);
         }

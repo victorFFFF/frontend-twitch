@@ -4,9 +4,14 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ViewCount from "./ViewCount";
 
-function TopGameView({ topGames, clickNext, clickPrev, disable, counter }) {
-  console.log("TOPGAMEVIEW");
-  console.log(topGames);
+function TopGameView({
+  topGames,
+  clickNext,
+  clickPrev,
+  disable,
+  counter,
+  cursor,
+}) {
   return (
     <div>
       <div className="topSpace">
@@ -24,7 +29,7 @@ function TopGameView({ topGames, clickNext, clickPrev, disable, counter }) {
               <Card.Body>
                 <Card.Title>{element.gameName}</Card.Title>
 
-                <ViewCount topGames={topGames[i].id}></ViewCount>
+                <ViewCount gameID={topGames[i].id} cursor={cursor}></ViewCount>
 
                 <Link to={`/popularGames/${element.id}`}>
                   {"Watch " + element.gameName}

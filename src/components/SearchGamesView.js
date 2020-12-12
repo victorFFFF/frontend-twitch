@@ -25,7 +25,9 @@ export default function SearchGamesView({
               <Card style={{ width: "15rem" }}>
                 <Card.Img variant="top" src={element.pic} />
                 <Card.Body>
-                  <Link to={`/popularGames/${element.id}`}>{element.name}</Link>
+                  <Link to={`/searchChannel/${element.id}`}>
+                    {element.name}
+                  </Link>
                 </Card.Body>
               </Card>
             </ol>
