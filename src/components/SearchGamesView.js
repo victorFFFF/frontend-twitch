@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import ViewCount from "./ViewCount";
 import Card from "react-bootstrap/Card";
 
 export default function SearchGamesView({
@@ -9,6 +9,7 @@ export default function SearchGamesView({
   handleInputChange,
   updateSearch,
   searchedGames,
+  cursor,
 }) {
   let display;
   //Control what to display
@@ -25,6 +26,10 @@ export default function SearchGamesView({
               <Card style={{ width: "15rem" }}>
                 <Card.Img variant="top" src={element.pic} />
                 <Card.Body>
+                  <ViewCount
+                    gameID={searchedGames[i].id}
+                    cursor={cursor}
+                  ></ViewCount>
                   <Link to={`/searchChannel/${element.id}`}>
                     {element.name}
                   </Link>
