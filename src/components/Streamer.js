@@ -120,7 +120,6 @@ export default function Streamer({ match }) {
         <div className="center" style={{ padding: "50px" }}>
           <h3>{gameName}</h3>
           <ViewCount gameID={match.params.id} cursor={cursor}></ViewCount>
-          {+" viewers"}
         </div>
 
         <div className="moveRight">
@@ -132,7 +131,7 @@ export default function Streamer({ match }) {
                   <Card.Body>
                     <Card.Title>{streamer.title}</Card.Title>
                     <Card.Text>{streamer.name}</Card.Text>
-                    <Card.Text>{streamer.views + " viewers"}</Card.Text>
+                    <Card.Text>{streamer.views + " views"}</Card.Text>
                   </Card.Body>
                 </Card>
               </ol>
