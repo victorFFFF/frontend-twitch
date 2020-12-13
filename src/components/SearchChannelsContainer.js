@@ -59,6 +59,8 @@ export default function SearchChannelContainer() {
       )
       .then((response) => {
         const result = response.data.data;
+        if (result.length === 0) setStatus(false);
+
         console.group(result);
 
         //Find game name from gameid then put all the info into state
