@@ -43,7 +43,10 @@ export default function Following({ match }) {
   return (
     <div>
       <div className="topSpace">
-        <h3 className="center">{theUser} is following</h3>
+        <h3 className="center">
+          {" "}
+          <Link to={`/channel/${theUser}`}>{theUser}</Link> is following
+        </h3>
         <div className="card-group">
           {following.map((element, i) => (
             <ol key={i}>

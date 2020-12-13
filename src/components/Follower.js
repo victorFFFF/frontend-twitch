@@ -43,7 +43,10 @@ export default function Follower({ match }) {
   return (
     <div>
       <div className="topSpace">
-        <h3 className="center">{theUser}'s followers</h3>
+        <h3 className="center">
+          {" "}
+          <Link to={`/channel/${theUser}`}>{theUser}</Link>'s followers
+        </h3>
         <div className="card-group">
           {follower.map((element, i) => (
             <ol key={i}>
