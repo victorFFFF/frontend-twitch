@@ -4,7 +4,9 @@ import Card from "react-bootstrap/Card";
 export default function TopStreamView({ topStream }) {
   return (
     <div>
-      <h3 className="topSpace">Top Live Viewed Channels</h3>
+      <div className="center">
+        <h3 className="topSpace">Top Live Viewed Channels</h3>
+      </div>
       <div className="moveRight">
         <div className="card-group">
           {topStream.map((element, i) => (

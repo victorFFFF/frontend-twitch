@@ -93,8 +93,13 @@ export default function SearchChannelContainer() {
     //put all info into state
     for (let i = 0; i < result.length; i++) {
       let status = "Offline";
+      let startedAt = "N/A";
 
-      if (result[i].is_live) status = "Live";
+      if (result[i].is_live) {
+        status = "Live";
+        startedAt = result[i].started_at;
+      }
+
       setSearchedChannels((prevState) => [
         ...prevState,
         {
@@ -104,7 +109,7 @@ export default function SearchChannelContainer() {
           gameName: gameIDMap.get(result[i].game_id),
           gameID: result[i].game_id,
           live: status,
-          liveSince: result[i].started_at,
+          liveSince: startedAt,
           thumbnail_url: result[i].thumbnail_url,
           title: result[i].title,
         },
