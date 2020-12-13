@@ -6,7 +6,7 @@ import "../App.css";
 
 export default function Following({ match }) {
   const [following, setFollowing] = useState([]);
-  const [theFollower, setFollower] = useState();
+  const [theUser, setUser] = useState();
 
   //Find Channels
   const getFollowing = async () => {
@@ -29,7 +29,7 @@ export default function Following({ match }) {
             },
           ]);
         }
-        setFollower(result[0].from_name);
+        setUser(result[0].from_name);
       })
       .catch((err) => {
         console.log(err);
@@ -43,7 +43,7 @@ export default function Following({ match }) {
   return (
     <div>
       <div className="topSpace">
-        <h3 className="center">{theFollower} is following</h3>
+        <h3 className="center">{theUser} is following</h3>
         <div className="card-group">
           {following.map((element, i) => (
             <ol key={i}>

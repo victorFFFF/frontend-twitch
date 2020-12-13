@@ -5,12 +5,12 @@ import api from "./api";
 import "../App.css";
 
 export default function Follower({ match }) {
-  const [following, setFollowing] = useState([]);
-  const [theFollower, setFollower] = useState();
+  const [follower, setFollower] = useState([]);
+  const [theUser, setUser] = useState();
 
   //Find Channels
   const getFollowing = async () => {
-    setFollowing([]);
+    setFollower([]);
 
     await api
       .get(
@@ -21,7 +21,7 @@ export default function Follower({ match }) {
         console.group(result);
 
         for (let i = 0; i < result.length; i++) {
-          setFollowing((prevState) => [
+          setFollower((prevState) => [
             ...prevState,
             {
               name: result[i].from_name,
@@ -29,7 +29,7 @@ export default function Follower({ match }) {
             },
           ]);
         }
-        setFollower(result[0].to_name);
+        setUser(result[0].to_name);
       })
       .catch((err) => {
         console.log(err);
@@ -43,9 +43,9 @@ export default function Follower({ match }) {
   return (
     <div>
       <div className="topSpace">
-        <h3 className="center">{theFollower}'s followers</h3>
+        <h3 className="center">{theUser}'s followers</h3>
         <div className="card-group">
-          {following.map((element, i) => (
+          {follower.map((element, i) => (
             <ol key={i}>
               <Card style={{ width: "25rem" }}>
                 {/* <Card.Img variant="top" src={} /> */}

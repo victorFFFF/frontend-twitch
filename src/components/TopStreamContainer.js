@@ -31,6 +31,7 @@ function TopStreamContainer() {
               userName: result[i].user_name,
               viewCount: result[i].viewer_count,
               gameName: result[i].game_name,
+              game_id: result[i].game_id,
               title: result[i].title,
               liveSince: result[i].started_at,
               language: result[i].language,
