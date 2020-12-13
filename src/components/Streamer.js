@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ViewCount from "./ViewCount";
 import ScrollArrow from "./ScrollArrow";
+import { Link } from "react-router-dom";
 
 export default function Streamer({ match }) {
   const [streamers, setStreamers] = useState([]);
@@ -135,7 +136,11 @@ export default function Streamer({ match }) {
                   <Card.Img variant="top" src={streamer.pic} />
                   <Card.Body>
                     <Card.Title>{streamer.title}</Card.Title>
-                    <Card.Text>{streamer.name}</Card.Text>
+                    <Card.Text>
+                      <Link to={`/channel/${streamer.name}`}>
+                        {streamer.name}
+                      </Link>
+                    </Card.Text>
                     <Card.Text>{streamer.views + " views"}</Card.Text>
                   </Card.Body>
                 </Card>

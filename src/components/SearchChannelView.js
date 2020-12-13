@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
 
 export default function SearchChannelView({
   display,
@@ -13,8 +14,8 @@ export default function SearchChannelView({
   updateSearch,
 }) {
   //Control what to display
-  if (loading) display = <h3 className="centerMiddle">loading...</h3>;
-  else if (valid && empty) {
+
+  if (valid && empty) {
     display = "";
   } else if (valid) {
     display = (
@@ -43,14 +44,11 @@ export default function SearchChannelView({
               <Card style={{ width: "15rem" }}>
                 <Card.Img variant="top" src={element.thumbnail_url} />
                 <Card.Body>
-                  User: {element.displayName}
-                  <p>User ID: {element.id}</p>
-                  <p>Status: {element.live}</p>
-                  <p>Live Since: {element.liveSince}</p>
-                  <p>BroadCast langauge: {element.language}</p>
-                  <p>Stream Title: {element.title}</p>
-                  <p>Game : {element.gameName}</p>
-                  <p>Game ID: {element.gameID}</p>
+                  <div className="center">
+                    <Link to={`/channel/${element.displayName}`}>
+                      {element.displayName}
+                    </Link>
+                  </div>
                 </Card.Body>
               </Card>
             </ol>

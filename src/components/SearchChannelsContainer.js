@@ -5,25 +5,10 @@ import SearchChannelView from "./SearchChannelView";
 
 export default function SearchChannelContainer() {
   const [searchInput, setSearchInput] = useState("");
-  const [searchedChannels, setSearchedChannels] = useState([
-    {
-      language: "",
-      displayName: "",
-      gameName: "",
-      gameID: "",
-      id: "",
-      live: "Offline",
-      liveSince: "",
-      thumbnail_url: "",
-      title: "",
-    },
-  ]);
+  const [searchedChannels, setSearchedChannels] = useState([]);
   const [valid, setStatus] = useState(true);
-  const [display2, setDisplay2] = useState();
   const [empty, setEmpty] = useState(true);
-  const [loading, setLoading] = useState(false);
 
-  let gameIDMap = new Map();
   let display;
   let filter = "&live_only=false";
 
@@ -41,16 +26,11 @@ export default function SearchChannelContainer() {
 
   //Find Channels
   const updateSearch = async (e) => {
+    setStatus(true);
     setEmpty(false);
-    setLoading(true);
     e.preventDefault();
     setSearchedChannels([]);
-    setStatus(true);
-    if (valid) {
-      setDisplay2(
-        <p>Top results of channels that streamed within the last 6 months</p>
-      );
-    }
+
     await api
       .get(
         "https://api.twitch.tv/helix/search/channels?query=" +
@@ -59,65 +39,27 @@ export default function SearchChannelContainer() {
       )
       .then((response) => {
         const result = response.data.data;
+        console.log(result);
         if (result.length === 0) setStatus(false);
+        for (let i = 0; i < result.length; i++) {
+          setSearchedChannels((prevState) => [
+            ...prevState,
+            {
+              displayName: result[i].display_name,
+              thumbnail_url: result[i].thumbnail_url,
+            },
+          ]);
+        }
 
         console.group(result);
 
         //Find game name from gameid then put all the info into state
-        findGameName(result);
       })
       .catch((err) => {
         console.log(err);
         setStatus(false);
         setEmpty(false);
-        setLoading(false);
       });
-  };
-
-  const findGameName = async (result) => {
-    //find game name corresponding to the game id
-    for (let i = 0; i < result.length; i++) {
-      await api
-        .get("https://api.twitch.tv/helix/games?id=" + result[i].game_id)
-        .then((response) => {
-          const result2 = response.data;
-
-          if (!gameIDMap.has(result[i].game_id))
-            gameIDMap.set(result[i].game_id, result2.data[0].name);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    //put all info into state
-    for (let i = 0; i < result.length; i++) {
-      let status = "Offline";
-      let startedAt = "N/A";
-
-      if (result[i].is_live) {
-        status = "Live";
-        startedAt = result[i].started_at;
-      }
-
-      setSearchedChannels((prevState) => [
-        ...prevState,
-        {
-          language: result[i].broadcaster_language,
-          displayName: result[i].display_name,
-          id: result[i].id,
-          gameName: gameIDMap.get(result[i].game_id),
-          gameID: result[i].game_id,
-          live: status,
-          liveSince: startedAt,
-          thumbnail_url: result[i].thumbnail_url,
-          title: result[i].title,
-        },
-      ]);
-    }
-
-    setLoading(false);
-    console.log(valid);
   };
 
   return (
@@ -126,10 +68,8 @@ export default function SearchChannelContainer() {
       valid={valid}
       filterDefault={filterDefault}
       filterLive={filterLive}
-      display2={display2}
       searchedChannels={searchedChannels}
       handleInputChange={handleInputChange}
-      loading={loading}
       empty={empty}
       updateSearch={updateSearch}
     ></SearchChannelView>
