@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import ViewCount from "./ViewCount";
 
 export default function Streamer({ match }) {
-  const [streamers, setStreamers] = useState([{}]);
+  const [streamers, setStreamers] = useState([]);
   const [gameName, setGameName] = useState();
   const [loading, setLoading] = useState(true);
   const [cursor, setCursor] = useState([]);
@@ -19,7 +19,6 @@ export default function Streamer({ match }) {
   let display2;
 
   const getStreamer = async () => {
-    console.log(cursor);
     page = cursor;
 
     if (page.length !== 0) page = page[page.length - 1];
@@ -58,7 +57,7 @@ export default function Streamer({ match }) {
         const result = response.data.data;
         page = response.data.pagination.cursor;
         if (next) setCursor((prevState) => [...prevState, page]);
-        console.log(response);
+
         setGameName(result[0].game_name);
         for (let i = 0; i < result.length; i++) {
           if (i == 0) {
@@ -89,11 +88,15 @@ export default function Streamer({ match }) {
             ]);
           }
         }
+        console.log("Set loading to false");
         setLoading(false);
         if (cursor.length === 0) setDisable(true);
         else setDisable(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   const clickNext = () => {
@@ -114,7 +117,8 @@ export default function Streamer({ match }) {
 
   if (loading) {
     display2 = "Loading...";
-  } else {
+  } else if (streamers.length === 0) display2 = "No results.";
+  else {
     display = (
       <div>
         <div className="center" style={{ padding: "50px" }}>
@@ -154,6 +158,7 @@ export default function Streamer({ match }) {
       </div>
     );
   }
+
   return (
     <div>
       <div className="centerMiddle">{display2}</div>
