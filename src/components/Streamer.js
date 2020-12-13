@@ -4,6 +4,7 @@ import api from "./api";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ViewCount from "./ViewCount";
+import ScrollArrow from "./ScrollArrow";
 
 export default function Streamer({ match }) {
   const [streamers, setStreamers] = useState([]);
@@ -154,6 +155,7 @@ export default function Streamer({ match }) {
           <Button variant="outline-primary" onClick={clickNext}>
             Next Page
           </Button>
+          <ScrollArrow>top page</ScrollArrow>
         </div>
       </div>
     );
