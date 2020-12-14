@@ -9,7 +9,7 @@ export default function Follower({ match }) {
   const [theUser, setUser] = useState();
 
   //Find Channels
-  const getFollowing = async () => {
+  const getFollower = async () => {
     setFollower([]);
 
     await api
@@ -37,7 +37,11 @@ export default function Follower({ match }) {
   };
 
   useEffect(() => {
-    getFollowing();
+    let mounted = true;
+
+    if (mounted) getFollower();
+
+    return () => (mounted = false);
   }, []);
 
   return (

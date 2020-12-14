@@ -77,3 +77,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - [x] implement no result for streams
 - [ ] implement some backend functionalities
 - [ ] implement no result for follower/following
+- [ ] Need to fix memory leakage going from page to page

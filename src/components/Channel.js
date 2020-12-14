@@ -65,7 +65,11 @@ export default function Channel({ match }) {
   };
 
   useEffect(() => {
-    getChannel();
+    let mounted = true;
+
+    if (mounted) getChannel();
+
+    return () => (mounted = false);
   }, []);
 
   return (
@@ -80,7 +84,13 @@ export default function Channel({ match }) {
               <Card.Text>User ID : {element.id} </Card.Text>
               <Card.Text>Live : {element.live}</Card.Text>
               <Card.Text>Live Since : {element.liveSince}</Card.Text>
-              <Card.Text>Game Name : {element.gameName}</Card.Text>
+              <Card.Text>
+                Game Name :{" "}
+                <Link to={`/popularGames/${element.gameID}`}>
+                  {" "}
+                  {element.gameName}
+                </Link>
+              </Card.Text>
               <Card.Text>Game ID : {element.gameID} </Card.Text>
               <Card.Text>Language : {element.language} </Card.Text>
               <Card.Text>

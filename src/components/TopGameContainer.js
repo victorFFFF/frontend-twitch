@@ -30,7 +30,6 @@ function TopGameContainer() {
 
       //EVEN
       if (counter % 2 === 0) {
-        console.log("EVEN");
         cursor.pop();
         if (cursor.length === 0) page = "";
         else {
@@ -45,17 +44,17 @@ function TopGameContainer() {
         page = page[cursor.length - 1];
       }
     }
-
+    setTopGames([]);
     await api
       .get(`https://api.twitch.tv/helix/games/top?after=${page}`)
       .then((response) => {
         const result = response.data.data;
         page = response.data.pagination.cursor;
+
         if (next) setCursor((prevState) => [...prevState, page]);
 
         for (let i = 0; i < result.length; i++) {
           if (i === 0) {
-            setTopGames([]);
             setTopGames([
               {
                 id: result[i].id,
@@ -81,7 +80,6 @@ function TopGameContainer() {
           }
         }
       });
-    console.log(cursor.length);
     if (cursor.length === 0) setDisable(true);
     else setDisable(false);
   };
@@ -99,7 +97,11 @@ function TopGameContainer() {
   };
 
   useEffect(() => {
-    updateTopGame();
+    let mounted = true;
+
+    if (mounted) updateTopGame();
+
+    return () => (mounted = false);
   }, [cursor]);
 
   return (

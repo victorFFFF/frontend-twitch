@@ -46,7 +46,11 @@ function TopStreamContainer() {
   };
 
   useEffect(() => {
-    getTopStream();
+    let mounted = true;
+
+    if (mounted) getTopStream();
+
+    return () => (mounted = false);
   }, []);
 
   return <TopStreamView topStream={topStream} />;

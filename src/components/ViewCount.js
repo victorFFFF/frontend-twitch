@@ -8,20 +8,23 @@ export default function ViewCount({ gameID, cursor }) {
   let count;
 
   const getViews = async () => {
-    setTotalView(0);
+    try {
+      setTotalView(0);
+      await api
+        .get(`https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100`)
+        .then((response) => {
+          const result = response.data.data;
+          page = response.data.pagination.cursor;
 
-    await api
-      .get(`https://api.twitch.tv/helix/streams?game_id=${gameID}&first=100`)
-      .then((response) => {
-        const result = response.data.data;
-        page = response.data.pagination.cursor;
-
-        for (let i = 0; i < result.length; i++) {
-          setTotalView((prevState) => prevState + result[i].viewer_count);
-          count = result[i].viewer_count;
-        }
-      })
-      .catch((err) => console.log(err));
+          for (let i = 0; i < result.length; i++) {
+            setTotalView((prevState) => prevState + result[i].viewer_count);
+            count = result[i].viewer_count;
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
 
     //Loops until end of pagnation
     while (page !== undefined && count > 10) {
@@ -44,7 +47,11 @@ export default function ViewCount({ gameID, cursor }) {
   };
 
   useEffect(() => {
-    getViews();
+    let mounted = true;
+
+    if (mounted) getViews();
+
+    return () => (mounted = false);
   }, [page]);
 
   return <div>{totalViews} views</div>;

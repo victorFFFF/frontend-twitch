@@ -27,16 +27,13 @@ export default function Streamer({ match }) {
 
     if (next) {
       setCount((prevState) => prevState + 1);
-      console.log("next");
     }
 
     if (prev) {
-      console.log("prev");
       setCount((prevState) => prevState - 1);
 
       //EVEN
       if (counter % 2 === 0) {
-        console.log("EVEN");
         cursor.pop();
         if (cursor.length === 0) page = "";
         else {
@@ -90,7 +87,7 @@ export default function Streamer({ match }) {
             ]);
           }
         }
-        console.log("Set loading to false");
+
         setLoading(false);
         if (cursor.length === 0) setDisable(true);
         else setDisable(false);
@@ -114,7 +111,11 @@ export default function Streamer({ match }) {
   };
 
   useEffect(() => {
-    getStreamer();
+    let mounted = true;
+
+    if (mounted) getStreamer();
+
+    return () => (mounted = false);
   }, [cursor]);
 
   if (loading) {
@@ -160,7 +161,7 @@ export default function Streamer({ match }) {
           <Button variant="outline-primary" onClick={clickNext}>
             Next Page
           </Button>
-          <ScrollArrow>top page</ScrollArrow>
+          {/* <ScrollArrow>top page</ScrollArrow> */}
         </div>
       </div>
     );

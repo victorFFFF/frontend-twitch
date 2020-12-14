@@ -23,7 +23,6 @@ function SearchGamesContainer() {
       .get("https://api.twitch.tv/helix/search/categories?query=" + searchInput)
       .then((response) => {
         const result = response.data;
-        console.log(result);
         for (let i = 0; i < result.data.length; i++) {
           setSearchedGames((prevState) => [
             ...prevState,

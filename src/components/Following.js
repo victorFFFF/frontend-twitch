@@ -37,7 +37,11 @@ export default function Following({ match }) {
   };
 
   useEffect(() => {
-    getFollowing();
+    let mounted = true;
+
+    if (mounted) getFollowing();
+
+    return () => (mounted = false);
   }, []);
 
   return (
