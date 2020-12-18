@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import api from "./api";
 import "../App.css";
 
-export default function UserStream({ match }) {
+export default function SingleStream({ match }) {
   const [stream, setStream] = useState([]);
 
   const getStream = async () => {
@@ -45,6 +45,7 @@ export default function UserStream({ match }) {
               <Card style={{ width: "25rem" }}>
                 <img src={element.img}></img>
                 <Card.Body>
+                  <h3>{element.title}</h3>
                   <Card.Text>
                     <Link to={`/channel/${element.user_name}`}>
                       {element.user_name}

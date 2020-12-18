@@ -9,7 +9,7 @@ import TopStreamContainer from "../components/TopStreamContainer";
 import Streamer from "../components/Streamer";
 import Channel from "../components/Channel";
 import Following from "../components/Following";
-import UserStream from "../components/UserStream";
+import SingleStream from "../components/SingleStream";
 import Follower from "../components/Follower";
 
 const TheRoutes = () => (
@@ -18,7 +18,7 @@ const TheRoutes = () => (
     <Route path="/channel/:id" exact component={Channel} />
     <Route path="/:id/following" exact component={Following} />
     <Route path="/:id/follower" exact component={Follower} />
-    <Route path="/:id/stream" exact component={UserStream} />
+    <Route path="/:id/stream" exact component={SingleStream} />
     <Route path="/search" exact component={Search} />
     <Route path="/searchGame" exact component={SearchGamesContainer} />
     {/* <Route path="/searchGame:name" component={SearchGamesContainer} /> */}
