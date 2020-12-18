@@ -2,8 +2,9 @@ import "../App.css";
 import React, { useState, useEffect } from "react";
 import api from "./api";
 
-export default function ViewCount({ gameID, cursor }) {
+export default function ViewCount({ gameID }) {
   const [totalViews, setTotalView] = useState();
+  const [isMounted, setIsMounted] = useState(true);
   let page = "";
   let count;
 
@@ -47,12 +48,12 @@ export default function ViewCount({ gameID, cursor }) {
   };
 
   useEffect(() => {
-    let mounted = true;
+    if (isMounted) getViews();
 
-    if (mounted) getViews();
-
-    return () => (mounted = false);
-  }, [page]);
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   return <div>{totalViews} views</div>;
 }
