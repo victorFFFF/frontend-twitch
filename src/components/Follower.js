@@ -7,6 +7,8 @@ import "../App.css";
 export default function Follower({ match }) {
   const [follower, setFollower] = useState([]);
   const [theUser, setUser] = useState();
+  const [valid, setValid] = useState(true);
+  let display = "";
 
   //Find Channels
   const getFollower = async () => {
@@ -18,6 +20,7 @@ export default function Follower({ match }) {
       )
       .then((response) => {
         const result = response.data.data;
+        if (result.length === 0) setValid(false);
         console.group(result);
 
         for (let i = 0; i < result.length; i++) {
@@ -44,30 +47,37 @@ export default function Follower({ match }) {
     return () => (mounted = false);
   }, []);
 
-  return (
-    <div>
-      <div className="topSpace">
-        <h3 className="center">
-          {" "}
-          <Link to={`/channel/${theUser}`}>{theUser}</Link>'s followers
-        </h3>
-        <div className="card-group">
-          {follower.map((element, i) => (
-            <ol key={i}>
-              <Card style={{ width: "25rem" }}>
-                {/* <Card.Img variant="top" src={} /> */}
-                <Card.Body>
-                  <Card.Text>
-                    {" "}
-                    <Link to={`/channel/${element.name}`}> {element.name}</Link>
-                  </Card.Text>
-                  Followed since : {element.date}
-                </Card.Body>
-              </Card>
-            </ol>
-          ))}
+  if (valid)
+    display = (
+      <div>
+        <div className="topSpace">
+          <h3 className="center">
+            {" "}
+            <Link to={`/channel/${theUser}`}>{theUser}</Link>'s followers
+          </h3>
+          <div className="card-group">
+            {follower.map((element, i) => (
+              <ol key={i}>
+                <Card style={{ width: "25rem" }}>
+                  {/* <Card.Img variant="top" src={} /> */}
+                  <Card.Body>
+                    <Card.Text>
+                      {" "}
+                      <Link to={`/channel/${element.name}`}>
+                        {" "}
+                        {element.name}
+                      </Link>
+                    </Card.Text>
+                    Followed since : {element.date}
+                  </Card.Body>
+                </Card>
+              </ol>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  else display = <p className="centerMiddle">No results.</p>;
+
+  return <div>{display}</div>;
 }
