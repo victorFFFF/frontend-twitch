@@ -19,8 +19,6 @@ export default function Channel({ match }) {
       .then((response) => {
         const result = response.data.data[0];
 
-        console.group(result);
-
         //Find game name from gameid then put all the info into state
         findGameName(result);
       })
@@ -34,18 +32,34 @@ export default function Channel({ match }) {
     await api
       .get("https://api.twitch.tv/helix/games?id=" + result.game_id)
       .then((response) => {
-        const result2 = response.data.data[0].name;
-
         let status = "Offline";
         let startedAt = "N/A";
+
+        setSearchedChannels((prevState) => [
+          ...prevState,
+          {
+            language: result.broadcaster_language,
+            displayName: result.display_name,
+            id: result.id,
+            gameName: "N/A",
+            gameID: result.game_id,
+            live: status,
+            liveSince: startedAt,
+            thumbnail_url: result.thumbnail_url,
+            title: result.title,
+          },
+        ]);
+
+        const result2 = response.data.data[0].name;
+        console.log("result 2");
+        console.log(response.data);
 
         if (result.is_live) {
           status = "Live";
           startedAt = result.started_at;
           setLive(true);
         }
-        setSearchedChannels((prevState) => [
-          ...prevState,
+        setSearchedChannels([
           {
             language: result.broadcaster_language,
             displayName: result.display_name,

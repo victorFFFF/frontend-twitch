@@ -7,6 +7,8 @@ import "../App.css";
 export default function Following({ match }) {
   const [following, setFollowing] = useState([]);
   const [theUser, setUser] = useState();
+  const [valid, setValid] = useState(true);
+  let display = "";
 
   //Find Channels
   const getFollowing = async () => {
@@ -18,6 +20,7 @@ export default function Following({ match }) {
       )
       .then((response) => {
         const result = response.data.data;
+        if (result.length === 0) setValid(false);
         console.group(result);
 
         for (let i = 0; i < result.length; i++) {
@@ -44,8 +47,8 @@ export default function Following({ match }) {
     return () => (mounted = false);
   }, []);
 
-  return (
-    <div>
+  if (valid) {
+    display = (
       <div className="topSpace">
         <h3 className="center">
           {" "}
@@ -68,6 +71,8 @@ export default function Following({ match }) {
           ))}
         </div>
       </div>
-    </div>
-  );
+    );
+  } else display = <p className="centerMiddle">No results.</p>;
+
+  return <div>{display}</div>;
 }
