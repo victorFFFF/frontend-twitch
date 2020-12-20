@@ -3,21 +3,25 @@ import { Link } from "react-router-dom";
 import "react-dropdown/style.css";
 import MenuSearch from "./MenuSearch";
 import MenuPopular from "./MenuPopular";
+import "./MenuSearch.css";
 
 function Nav() {
-  const navStyle = {
-    color: "White",
-    textDecoration: "none",
-  };
   return (
     <nav>
       <ul className="nav-links">
-        <Link style={navStyle} to="/">
-          <li>Home</li>
-        </Link>
+        <div className="Menu">
+          <Link className={"m-item m-logo"} to="/">
+            <li>Home</li>
+          </Link>
+        </div>
 
         <MenuSearch />
         <MenuPopular />
+        <div className="Menu">
+          <Link className={"m-item m-logo"} to="/login">
+            <li>Login</li>
+          </Link>
+        </div>
       </ul>
     </nav>
   );

@@ -11,10 +11,14 @@ import Channel from "../components/Channel";
 import Following from "../components/Following";
 import SingleStream from "../components/SingleStream";
 import Follower from "../components/Follower";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
 const TheRoutes = () => (
   <Switch>
     <Route path="/" exact component={Home} />
+    <Route path="/login" exact component={Login} />
+    <Route path="/register" exact component={Register} />
     <Route path="/channel/:id" exact component={Channel} />
     <Route path="/:id/following" exact component={Following} />
     <Route path="/:id/follower" exact component={Follower} />
