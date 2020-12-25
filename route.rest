@@ -1,0 +1,13 @@
+GET http://localhost:3001
+
+
+### 
+
+POST http://localhost:3001/User/register
+Content-Type: application/json
+
+{
+    "userID": "CHINAMAC",
+    "password": "POP"
+
+}
