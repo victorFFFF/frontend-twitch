@@ -1,8 +1,7 @@
 import "../App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 
 export default function Login() {
   const [userLogin, setUser] = useState("");
@@ -18,14 +17,34 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  console.log("USER " + userLogin);
-  console.log("Password " + passwordLogin);
+  const loginTheUser = () => {
+    axios
+      .post(
+        "http://localhost:3001/User/login/",
+        {
+          userLogin,
+          passwordLogin,
+        },
+        {
+          headers: {
+            withCredentials: true,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="centerMiddle3">
       User: <input placeholder="UserName" onChange={inputUser} />
       <br></br>
       Password: <input placeholder="Password" onChange={inputPW} />
-      <button>Login</button>
+      <button onClick={loginTheUser}>Login</button>
       <br></br>
       <br></br>
       Dont' have a account?
