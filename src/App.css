@@ -89,6 +89,11 @@ nav {
 .center {
   text-align: center;
 }
+.centerMiddleText {
+  text-align: center;
+  margin: 20%;
+}
+
 .right {
   float: right;
 }

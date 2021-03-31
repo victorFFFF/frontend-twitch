@@ -22,15 +22,15 @@ export default function Home() {
   };
 
   return (
-    <div className="center">
+    <div className="centerMiddleText">
       <h3>
-        Welcome to a third party Website that utilizies Twitch API to get
-        information.
+        Welcome to Victor Twitch website. This website utilizies Twitch API to
+        get information.
       </h3>
-      <Button variant="info" onClick={getOAuth}>
+      {/* <Button variant="info" onClick={getOAuth}>
         Get new OAuth
-      </Button>
-      <h3>{"OAuth :" + oAuth}</h3>
+      </Button> */}
+      {/* <h3>{"OAuth :" + oAuth}</h3> */}
     </div>
   );
 }
