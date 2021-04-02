@@ -5,8 +5,8 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 
 export default function Register() {
-  const [userLogin, setUser] = useState("");
-  const [passwordLogin, setPassword] = useState("");
+  const [username, setUser] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordLoginVerify, setPasswordVerify] = useState("");
 
   const inputUser = (e) => {
@@ -24,26 +24,36 @@ export default function Register() {
     setPasswordVerify(e.target.value);
   };
 
-  const register = () => {
-    if (passwordLogin !== passwordLoginVerify) {
-      console.log("password has to match");
+  const registerUser = () => {
+    if (password !== passwordLoginVerify) {
+      console.log("passwords has to match");
     } else {
-      axios
-        .post(
-          "http://localhost:3001/User/register/",
-          { userLogin, passwordLogin },
-          {
-            headers: {
-              withCredentials: true,
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios({
+        method: "post",
+        data: {
+          username: username,
+          password: password,
+        },
+        withCredentials: true,
+        url: "http://localhost:3001/register",
+      }).then((res) => console.log(res));
+
+      //   axios
+      //     .post(
+      //       "http://localhost:3001/",
+      //       { userID: userID, password: password },
+      //       {
+      //         headers: {
+      //           withCredentials: true,
+      //         },
+      //       }
+      //     )
+      //     .then((response) => {
+      //       console.log(response);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
     }
   };
 
@@ -65,7 +75,7 @@ export default function Register() {
         placeholder="Verify password"
         onChange={inputPWVerify}
       />
-      <button onClick={register}>Register</button>
+      <button onClick={registerUser}>Register</button>
       <br></br>
       <br></br>
       Already a member?
