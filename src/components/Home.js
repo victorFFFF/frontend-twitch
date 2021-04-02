@@ -27,12 +27,12 @@ export default function Home() {
         Welcome to Victor Twitch website. This website utilizies Twitch API to
         get information.
       </h3>
-      {
+      {/* {
         <Button variant="info" onClick={getOAuth}>
           Get new OAuth
         </Button>
       }
-      {<h3>{"OAuth :" + oAuth}</h3>}
+      {<h3>{"OAuth :" + oAuth}</h3>} */}
     </div>
   );
 }
