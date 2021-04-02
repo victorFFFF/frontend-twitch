@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
-  const [userLogin, setUser] = useState("");
-  const [passwordLogin, setPassword] = useState("");
+  const [username, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -17,33 +18,36 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const loginTheUser = () => {
-    axios
-      .post(
-        "http://localhost:3001/User/login/",
-        {
-          userLogin,
-          passwordLogin,
-        },
-        {
-          headers: {
-            withCredentials: true,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const loginTheUser = async () => {
+    await axios({
+      method: "POST",
+      data: {
+        username: username,
+        password: password,
+      },
+      withCredentials: true,
+      url: "http://localhost:3001/login",
+    }).then((res) => console.log("Logined Succesful"));
+
+    await axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:3001/user",
+    }).then((res) => setName(res.data.username));
   };
 
   return (
     <div className="centerMiddle3">
+      {name ? <h1>Hello {name}</h1> : null}
       User: <input placeholder="UserName" onChange={inputUser} />
       <br></br>
-      Password: <input placeholder="Password" onChange={inputPW} />
+      Password:
+      <input
+        placeholder="Password"
+        type="password"
+        name="password"
+        onChange={inputPW}
+      />
       <button onClick={loginTheUser}>Login</button>
       <br></br>
       <br></br>
