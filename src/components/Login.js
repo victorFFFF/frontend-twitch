@@ -11,7 +11,6 @@ export default function Login() {
   const { message, setMessage } = useContext(MessageContext);
   const history = useHistory();
   const [status, setStatus] = useState(true);
-  const [isMounted, setIsMounted] = useState(true);
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -28,22 +27,19 @@ export default function Login() {
       method: "GET",
       withCredentials: true,
       url: "http://localhost:3001/user",
-    }).then((res) => {
-      {
-        console.log(res);
-        setName(res.data.username);
-        if (res.data.username != null) {
-          setMessage("Welcome " + res.data.username);
-        } else {
-          console.log("else");
+    })
+      .then((res) => {
+        {
+          console.log(res.data);
+          setName(res.data.username);
+          if (res.data.username != null)
+            setMessage("Welcome " + res.data.username);
         }
-      }
-    });
+      })
+      .catch((err) => console.log(err));
   };
 
   const loginTheUser = async () => {
-    console.log(username);
-    console.log(password);
     await axios({
       method: "POST",
       data: {
@@ -64,13 +60,8 @@ export default function Login() {
     await getUser();
   };
 
-  useEffect(() => {
-    // if (isMounted) console.log("mounted");
-    // else
-    //   return () => {
-    //     setIsMounted(false);
-    //   };
-  }, []);
+  getUser();
+  useEffect(() => {}, []);
   return (
     <div className="centerMiddle3">
       User: <input placeholder="UserName" onChange={inputUser} />
