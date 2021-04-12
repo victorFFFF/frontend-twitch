@@ -29,9 +29,10 @@ export default function Login() {
       url: "http://localhost:3001/user",
     }).then((res) => {
       {
+        console.log(res);
         setName(res.data.username);
-        if (res.data.username != null)
-          setMessage("Welcome " + res.data.username);
+        // if (res.data.username != null)
+        //   setMessage("Welcome " + res.data.username);
       }
     });
   };
@@ -55,7 +56,6 @@ export default function Login() {
     });
 
     await getUser();
-    await setMessage("Welcome there");
   };
 
   useEffect(() => {
