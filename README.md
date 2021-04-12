@@ -75,6 +75,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - [x] count the true number of viewer per cateogory
 - [x] have dynamic link for users/games
 - [x] implement no result for streams
-- [ ] implement some backend functionalities/ passport
+- [x] implement some backend functionalities/ passport
 - [x] implement no result for follower/following
 - [x] Need to fix memory leakage going from page to page

@@ -4,8 +4,19 @@ import "react-dropdown/style.css";
 import MenuSearch from "./MenuSearch";
 import MenuPopular from "./MenuPopular";
 import "./MenuSearch.css";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 
 function Nav() {
+  const [style, setStyle] = useState("");
+
+  useEffect(() => {
+    Axios.get("online").then((response) => {
+      if (response.data) setStyle("none");
+      else setStyle("");
+    });
+  });
+
   return (
     <nav>
       <ul className="nav-links">
@@ -18,7 +29,11 @@ function Nav() {
         <MenuSearch />
         <MenuPopular />
         <div className="Menu">
-          <Link className={"m-item m-logo"} to="/login">
+          <Link
+            className={"m-item m-logo"}
+            to="/login"
+            style={{ display: `${style}` }}
+          >
             <li>Login</li>
           </Link>
         </div>
