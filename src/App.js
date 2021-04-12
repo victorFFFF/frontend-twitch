@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TheRoutes from "./Routes/TheRoutes";
 import Nav from "./components/Nav";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+
+export const MessageContext = React.createContext({
+  message: "",
+  setMessage: () => {},
+});
 
 function App() {
+  const [message, setMessage] = useState("");
+  const value = { message, setMessage };
+
   return (
     <div>
-      <Nav></Nav>
-      <TheRoutes></TheRoutes>
+      <MessageContext.Provider value={value}>
+        <Nav></Nav>
+        <h3 class="greeting">{message}</h3>
+        <TheRoutes></TheRoutes>
+      </MessageContext.Provider>
     </div>
   );
 }

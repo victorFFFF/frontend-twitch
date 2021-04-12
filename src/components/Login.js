@@ -1,12 +1,14 @@
 import "../App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { MessageContext } from "../App";
 
 export default function Login() {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const { message, setMessage } = useContext(MessageContext);
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -18,6 +20,20 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
+  const getUser = () => {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:3001/user",
+    }).then((res) => {
+      {
+        setName(res.data.username);
+        if (res.data.username != null)
+          setMessage("Welcome " + res.data.username);
+      }
+    });
+  };
+
   const loginTheUser = async () => {
     await axios({
       method: "POST",
@@ -27,19 +43,16 @@ export default function Login() {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => console.log(res));
+    }).then((res) => console.log(res.data));
 
-    await axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:3001/user",
-    }).then((res) => setName(res.data.username));
+    await getUser();
   };
 
-  useEffect(() => {}, [name]);
+  useEffect(() => {
+    getUser();
+  }, [name]);
   return (
     <div className="centerMiddle3">
-      {name ? <h1>Hello {name}</h1> : null}
       User: <input placeholder="UserName" onChange={inputUser} />
       <br></br>
       Password:
