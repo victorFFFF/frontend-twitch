@@ -5,12 +5,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 export const MessageContext = React.createContext({
-  message: "",
+  message: "Welcome",
   setMessage: () => {},
 });
 
 function App() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("Welcome");
   const value = { message, setMessage };
 
   return (
