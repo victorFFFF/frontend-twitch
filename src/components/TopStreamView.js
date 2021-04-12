@@ -9,7 +9,7 @@ export default function TopStreamView({ topStream }) {
         <h3 className="topSpace">Top Live Viewed Channels</h3>
       </div>
       <div className="moveRight">
-        <div className="card-group">
+        <div className="card-group" style={{ padding: "10%" }}>
           {topStream.map((element, i) => (
             <ol key={i}>
               <Card style={{ width: "30rem" }}>

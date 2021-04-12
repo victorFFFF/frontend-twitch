@@ -23,7 +23,7 @@ function TopGameView({
 
       <div className="card-group">
         {topGames.map((element, i) => (
-          <ol key={i}>
+          <ol key={i} className="cardItem">
             <Card style={{ width: "15rem" }}>
               <Card.Img variant="top" src={element.picUrl} />
               <Card.Body>
