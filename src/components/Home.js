@@ -24,8 +24,8 @@ export default function Home() {
   return (
     <div className="centerMiddleText">
       <h3>
-        Welcome to Victor Twitch website. This website utilizies Twitch API to
-        get information.
+        Welcome to Victor-Twitch-Clone-website. This website utilizies Twitch
+        API to get information.
       </h3>
       {/* {
         <Button variant="info" onClick={getOAuth}>

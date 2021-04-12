@@ -27,7 +27,7 @@ export default function ViewCount({ gameID }) {
       console.log(err);
     }
 
-    //Loops until end of pagnation
+    //Loops until end of pagnation and viewcount greater than 10
     while (page !== undefined && count > 10) {
       await api
         .get(
