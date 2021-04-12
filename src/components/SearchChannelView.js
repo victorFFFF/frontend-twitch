@@ -63,7 +63,6 @@ export default function SearchChannelView({
   return (
     <div>
       <div className="center">
-        <h1>Search Channel</h1>
         <p style={{ marginLeft: "25%", marginTop: "10%", maxWidth: "50%" }}>
           Returns a list of channels (users who have streamed within the past 6
           months) that match the query via channel name or description either

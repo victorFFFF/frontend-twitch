@@ -179,7 +179,7 @@ nav {
 
 .greeting {
   font-style: italic;
-  margin-right: 80%;
+  text-align: center;
 }
 
 @keyframes fadeIn {

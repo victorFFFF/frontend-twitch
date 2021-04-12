@@ -45,7 +45,6 @@ export default function SearchGamesView({
   return (
     <div>
       <div className="center">
-        <h1>Search Games</h1>
         <p style={{ marginTop: "10%" }}>
           Returns a list of games or categories that match the query via name
           either entirely or partially.

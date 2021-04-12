@@ -17,7 +17,7 @@ function App() {
     <div>
       <MessageContext.Provider value={value}>
         <Nav></Nav>
-        <h3 className="greeting">{message}</h3>
+        <h4 className="greeting">{message}</h4>
         <TheRoutes></TheRoutes>
       </MessageContext.Provider>
     </div>
