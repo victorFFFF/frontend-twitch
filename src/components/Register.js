@@ -1,6 +1,6 @@
 import "../App.css";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 
@@ -8,6 +8,8 @@ export default function Register() {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [passwordLoginVerify, setPasswordVerify] = useState("");
+  const history = useHistory();
+  const [status, setStatus] = useState(true);
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ export default function Register() {
 
   const registerUser = () => {
     if (password !== passwordLoginVerify) {
-      console.log("passwords has to match");
+      setStatus(false);
     } else {
       axios({
         method: "post",
@@ -36,7 +38,10 @@ export default function Register() {
         },
         withCredentials: true,
         url: "http://localhost:3001/register",
-      }).then((res) => console.log(res));
+      }).then((res) => {
+        setStatus(true);
+        history.push("/login");
+      });
 
       //   axios
       //     .post(
@@ -76,8 +81,7 @@ export default function Register() {
         onChange={inputPWVerify}
       />
       <button onClick={registerUser}>Register</button>
-      <br></br>
-      <br></br>
+      <p style={{ color: "red" }}> {status ? "" : "Password has to match!"} </p>
       Already a member?
       <br></br>
       <Link to="/login">Login Here!</Link>

@@ -23,7 +23,6 @@ function TopStreamContainer() {
       .get("https://api.twitch.tv/helix/streams?first=100")
       .then((response) => {
         const result = response.data.data;
-        console.log(result);
         for (let i = 0; i < result.length; i++) {
           updateTopStream((prevState) => [
             ...prevState,

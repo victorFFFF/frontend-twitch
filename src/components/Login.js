@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { MessageContext } from "../App";
 
@@ -9,6 +9,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const { message, setMessage } = useContext(MessageContext);
+  const history = useHistory();
+  const [status, setStatus] = useState(true);
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -43,7 +45,12 @@ export default function Login() {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => console.log(res.data));
+    }).then((res) => {
+      if (res.data === "Successfully Authenticated") {
+        setStatus(true);
+        history.push("/");
+      } else setStatus(false);
+    });
 
     await getUser();
   };
@@ -63,8 +70,7 @@ export default function Login() {
         onChange={inputPW}
       />
       <button onClick={loginTheUser}>Login</button>
-      <br></br>
-      <br></br>
+      <p style={{ color: "red" }}> {status ? " " : "Login failed"} </p>
       Dont' have a account?
       <br></br>
       <Link to="/register">Register Here!</Link>
