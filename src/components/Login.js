@@ -26,13 +26,13 @@ export default function Login() {
         password: password,
       },
       withCredentials: true,
-      url: "https://victor-twitch-server.herokuapp.com/login",
+      url: "http://localhost:3001/login",
     }).then((res) => console.log(res));
 
     await axios({
       method: "GET",
       withCredentials: true,
-      url: "https://victor-twitch-server.herokuapp.com/user",
+      url: "http://localhost:3001/user",
     }).then((res) => setName(res.data.username));
   };
 
