@@ -55,6 +55,7 @@ export default function Login() {
     });
 
     await getUser();
+    await setMessage("Welcome there");
   };
 
   useEffect(() => {
