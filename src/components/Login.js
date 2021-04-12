@@ -48,7 +48,7 @@ export default function Login() {
     }).then((res) => {
       if (res.data === "Successfully Authenticated") {
         setStatus(true);
-        history.push("/");
+        // history.push("/");
       } else setStatus(false);
     });
 
