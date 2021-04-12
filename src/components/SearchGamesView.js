@@ -17,9 +17,7 @@ export default function SearchGamesView({
   else if (valid) {
     display = (
       <div className="topSpace">
-        <div className="center" style={{ padding: "50px" }}>
-          {display2}
-        </div>
+        <div className="center">{display2}</div>
         <div className="card-group">
           {searchedGames.map((element, i) => (
             <ol key={i}>
@@ -48,8 +46,10 @@ export default function SearchGamesView({
     <div>
       <div className="center">
         <h1>Search Games</h1>
-        Returns a list of games or categories that match the query via name
-        either entirely or partially.
+        <p style={{ marginTop: "10%" }}>
+          Returns a list of games or categories that match the query via name
+          either entirely or partially.
+        </p>
       </div>
       <form className="centerForm">
         <input

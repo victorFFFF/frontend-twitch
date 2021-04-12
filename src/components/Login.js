@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -27,7 +27,7 @@ export default function Login() {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => console.log("Logined Succesful"));
+    }).then((res) => console.log(res));
 
     await axios({
       method: "GET",
@@ -36,6 +36,7 @@ export default function Login() {
     }).then((res) => setName(res.data.username));
   };
 
+  useEffect(() => {}, [name]);
   return (
     <div className="centerMiddle3">
       {name ? <h1>Hello {name}</h1> : null}
