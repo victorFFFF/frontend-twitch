@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TheRoutes from "./Routes/TheRoutes";
 import Nav from "./components/Nav";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";

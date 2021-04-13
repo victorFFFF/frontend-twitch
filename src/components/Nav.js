@@ -10,12 +10,12 @@ import Axios from "axios";
 function Nav() {
   const [style, setStyle] = useState("");
 
-  useEffect(() => {
-    Axios.get("online").then((response) => {
-      if (response.data) setStyle("none");
-      else setStyle("");
-    });
-  });
+  // useEffect(() => {
+  //   Axios.get("online").then((response) => {
+  //     if (response.data) setStyle("none");
+  //     else setStyle("");
+  //   });
+  // });
 
   return (
     <nav>
