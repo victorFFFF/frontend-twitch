@@ -2,7 +2,6 @@ import "../App.css";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 
 export default function Register() {
   const [username, setUser] = useState("");
@@ -80,7 +79,9 @@ export default function Register() {
         placeholder="Verify password"
         onChange={inputPWVerify}
       />
-      <button onClick={registerUser}>Register</button>
+      <button className="btn btn-success" onClick={registerUser}>
+        Register
+      </button>
       <p style={{ color: "red" }}> {status ? "" : "Password has to match!"} </p>
       Already a member?
       <br></br>

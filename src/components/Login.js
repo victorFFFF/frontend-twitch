@@ -73,7 +73,9 @@ export default function Login() {
         name="password"
         onChange={inputPW}
       />
-      <button onClick={loginTheUser}>Login</button>
+      <button className="btn btn-success" onClick={loginTheUser}>
+        Login
+      </button>
       <p style={{ color: "red" }}> {status ? " " : "Login failed"} </p>
       Dont' have a account?
       <br></br>

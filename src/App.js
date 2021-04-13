@@ -56,7 +56,11 @@ function App() {
       <MessageContext.Provider value={value}>
         <Nav></Nav>
         <h4 className="greeting">{message}</h4>
-        <button onClick={logout} style={{ display: `${style}` }}>
+        <button
+          className="btn btn-warning"
+          onClick={logout}
+          style={{ display: `${style}` }}
+        >
           logout
         </button>
         <TheRoutes></TheRoutes>
