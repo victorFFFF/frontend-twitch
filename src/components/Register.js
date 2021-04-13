@@ -8,7 +8,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [passwordLoginVerify, setPasswordVerify] = useState("");
   const history = useHistory();
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState("");
 
   const inputUser = (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function Register() {
 
   const registerUser = () => {
     if (password !== passwordLoginVerify) {
-      setStatus(false);
+      setStatus("Password has to match!");
     } else {
       axios({
         method: "post",
@@ -38,26 +38,13 @@ export default function Register() {
         withCredentials: true,
         url: "http://localhost:3001/register",
       }).then((res) => {
-        setStatus(true);
-        history.push("/login");
+        if (res.data === "User Already Exists")
+          setStatus("Username already exist");
+        else {
+          setStatus("");
+          history.push("/login");
+        }
       });
-
-      //   axios
-      //     .post(
-      //       "http://localhost:3001/",
-      //       { userID: userID, password: password },
-      //       {
-      //         headers: {
-      //           withCredentials: true,
-      //         },
-      //       }
-      //     )
-      //     .then((response) => {
-      //       console.log(response);
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
     }
   };
 
@@ -82,7 +69,7 @@ export default function Register() {
       <button className="btn btn-success" onClick={registerUser}>
         Register
       </button>
-      <p style={{ color: "red" }}> {status ? "" : "Password has to match!"} </p>
+      <p style={{ color: "red" }}> {status ? status : ""} </p>
       Already a member?
       <br></br>
       <Link to="/login">Login Here!</Link>

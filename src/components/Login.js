@@ -32,8 +32,10 @@ export default function Login() {
         {
           console.log(res.data);
           setName(res.data.username);
-          if (res.data.username != null)
+          if (res.data.username != null) {
             setMessage("Welcome " + res.data.username);
+            history.push("/");
+          }
         }
       })
       .catch((err) => console.log(err));
@@ -51,7 +53,6 @@ export default function Login() {
     }).then((res) => {
       if (res.data === "Successfully Authenticated") {
         setStatus(true);
-        history.push("/");
       } else setStatus(false);
 
       console.log(res.data);
@@ -60,8 +61,6 @@ export default function Login() {
     await getUser();
   };
 
-  getUser();
-  useEffect(() => {}, []);
   return (
     <div className="centerMiddle3">
       User: <input placeholder="UserName" onChange={inputUser} />
