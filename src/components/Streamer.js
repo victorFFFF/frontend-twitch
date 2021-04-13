@@ -4,7 +4,6 @@ import api from "./api";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ViewCount from "./ViewCount";
-import ScrollArrow from "./ScrollArrow";
 import { Link } from "react-router-dom";
 
 export default function Streamer({ match }) {
@@ -161,7 +160,6 @@ export default function Streamer({ match }) {
           <Button variant="outline-primary" onClick={clickNext}>
             Next Page
           </Button>
-          {/* <ScrollArrow>top page</ScrollArrow> */}
         </div>
       </div>
     );
